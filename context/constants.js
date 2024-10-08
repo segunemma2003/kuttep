@@ -186,7 +186,7 @@ export const CONNECT_WALLET = async () => {
   try {
     // Create a new instance of Web3Modal
     const web3Modal = new Web3Modal({
-      cacheProvider: false, // Set to true to cache the provider
+      cacheProvider: true, // Set to true to cache the provider
       providerOptions: {},  // Add custom providers here if needed
     });
 
@@ -334,24 +334,25 @@ export const ERC20_ICO_CONTRACT  = async () => {
 
 export const DISCONNECT_WALLET = async () => {
   try {
+    // Initialize Web3Modal instance
     const web3Modal = new Web3Modal();
-    
-    // Clear the cached provider to disconnect the wallet
-    web3Modal.clearCachedProvider();
 
-    // Optionally, reset the provider and reload the page
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      await window.ethereum.request({
-        method: "eth_requestAccounts",
-        params: [{ eth_accounts: {} }],
-      });
+    // Check if there's a cached provider
+    if (web3Modal.cachedProvider) {
+      // Clear the cached provider (this will "disconnect" the wallet)
+      web3Modal.clearCachedProvider();
+
+      // Reset local storage to remove any stored wallet information
+      window.localStorage.clear();
+
+      console.log("Cached provider cleared, wallet disconnected.");
+
+      // Optional: Perform additional cleanup or app state reset here
+    } else {
+      console.log("No provider cached, no wallet to disconnect.");
     }
-    window.localStorage.clear()
 
-    // You can also reset the app state after disconnection, if needed
-    console.log("Wallet disconnected");
-
-    // Optionally reload the page to reset the state
+    // Optionally, reload the page to reset the app state
     window.location.reload();
   } catch (err) {
     console.error("Error while disconnecting:", err);
