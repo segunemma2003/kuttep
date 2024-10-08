@@ -21,7 +21,7 @@ const notifySuccess = (msg) => toast.success(msg, {duration: 2000});
 const notifyError = (msg) => toast.error(msg, {duration: 2000});
 
 const connectWallet = async() =>{
-  setLoader(true);
+  setLoader(false);
   const address = await CONNECT_WALLET();
   setAccount(address);
 }
