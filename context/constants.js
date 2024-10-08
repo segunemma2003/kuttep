@@ -183,23 +183,16 @@ console.log(response);
 
 export const CONNECT_WALLET = async () => {
   try {
-    const isMobileDevice = () => {
-      return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
-    };
+    // Wait for MetaMask to load properly
+    await waitForEthereum();
 
-    // Ensure MetaMask is available on desktop and mobile browsers
     if (!window.ethereum || !window.ethereum.isMetaMask) {
-      if (isMobileDevice()) {
-        alert("Please use the MetaMask mobile app or install MetaMask in your mobile browser.");
-      } else {
-        alert("MetaMask is not installed. Please install MetaMask in your browser.");
-      }
+      alert("MetaMask is not installed. Please install MetaMask.");
       return;
     }
 
     console.log("Ethereum provider detected.");
 
-    // Trigger wallet connection only after a user interaction
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts"
     }).catch((err) => {
@@ -228,6 +221,14 @@ export const CONNECT_WALLET = async () => {
   }
 };
 
+
+const waitForEthereum = async () => {
+  while (typeof window.ethereum === 'undefined') {
+    console.log('Waiting for MetaMask to load...');
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  return window.ethereum;
+};
 
 
 
