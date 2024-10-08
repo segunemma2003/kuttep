@@ -183,17 +183,18 @@ console.log(response);
 
 export const CONNECT_WALLET = async () => {
   try {
-    // Wait for MetaMask to load properly
-    await waitForEthereum();
-
-    if (!window.ethereum || !window.ethereum.isMetaMask) {
-      alert("MetaMask is not installed. Please install MetaMask.");
+    // Wait for MetaMask to load with a 5-second timeout
+    const ethereum = await waitForEthereum(5000);
+    
+    if (!ethereum) {
+      // MetaMask not detected after waiting
+      console.log("MetaMask not found.");
       return;
     }
 
     console.log("Ethereum provider detected.");
 
-    const accounts = await window.ethereum.request({
+    const accounts = await ethereum.request({
       method: "eth_requestAccounts"
     }).catch((err) => {
       if (err.code === 4001) {
@@ -215,20 +216,30 @@ export const CONNECT_WALLET = async () => {
     } else {
       console.log("No accounts found or user rejected.");
     }
-    
+
   } catch (err) {
     console.log("Error:", err);
   }
 };
 
 
-const waitForEthereum = async () => {
+
+const waitForEthereum = async (timeout = 5000) => {
+  const start = Date.now();
+
   while (typeof window.ethereum === 'undefined') {
     console.log('Waiting for MetaMask to load...');
     await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Check if the wait has exceeded the timeout
+    if (Date.now() - start >= timeout) {
+      alert('MetaMask is not detected. Please install MetaMask.');
+      return null;  // Exit the function if MetaMask is not detected
+    }
   }
-  return window.ethereum;
+  return window.ethereum;  // Return the ethereum object if detected
 };
+
 
 
 
