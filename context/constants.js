@@ -1,5 +1,6 @@
 import {ethers} from "ethers";
 import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 
 import tokenICO from "./TokenICO.json";
@@ -182,15 +183,75 @@ console.log(response);
 // }
 
 
+// export const CONNECT_WALLET = async () => {
+//   try {
+//     // Create a new instance of Web3Modal
+//     const web3Modal = new Web3Modal({
+//       cacheProvider: true, // Set to true to cache the provider
+//       providerOptions: {},  // Add custom providers here if needed
+//     });
+
+//     // Open the modal to select a wallet
+//     const provider = await web3Modal.connect();
+
+//     // Create an instance of ethers.js provider
+//     const ethersProvider = new ethers.providers.Web3Provider(provider);
+
+//     // Get the signer for account access
+//     const signer = ethersProvider.getSigner();
+
+//     // Get the connected accounts
+//     const accounts = await signer.getAddress();
+    
+//     // Log the account address
+//     console.log("Connected account:", accounts);
+
+//     // Get the current network
+//     const network = await ethersProvider.getNetwork();
+
+//     // Desired network to switch to
+//     const desiredNetworkName = "holesky"; // Change this to your desired network
+
+//     // Check if we need to switch networks
+//     if (network.name !== desiredNetworkName) {
+//       console.log(`Switching to ${desiredNetworkName} network...`);
+//       await handleNetworkSwitch(desiredNetworkName); // Switch to the desired network
+//     }
+
+//     // Store the address or perform further actions
+//     const data = { address: accounts };
+//     const response = await storeAddress(data);
+//     console.log(response);
+
+//     return accounts;
+
+//   } catch (err) {
+//     console.log("Error:", err);
+//   }
+// };
+
+
+
+
 export const CONNECT_WALLET = async () => {
   try {
+    // WalletConnect provider options (you can customize or add other providers)
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          infuraId: "dbbc479bfa454288a09100c8eaff4e9f", // Required for WalletConnect
+        },
+      },
+    };
+
     // Create a new instance of Web3Modal
     const web3Modal = new Web3Modal({
-      cacheProvider: true, // Set to true to cache the provider
-      providerOptions: {},  // Add custom providers here if needed
+      cacheProvider: false, // Set to true to cache the provider
+      providerOptions, // Using WalletConnect provider here
     });
 
-    // Open the modal to select a wallet
+    // Open the modal to select a wallet (MetaMask or WalletConnect)
     const provider = await web3Modal.connect();
 
     // Create an instance of ethers.js provider
@@ -201,20 +262,19 @@ export const CONNECT_WALLET = async () => {
 
     // Get the connected accounts
     const accounts = await signer.getAddress();
-    
-    // Log the account address
     console.log("Connected account:", accounts);
 
     // Get the current network
     const network = await ethersProvider.getNetwork();
+    console.log("Current network:", network.name);
 
-    // Desired network to switch to
-    const desiredNetworkName = "holesky"; // Change this to your desired network
+    // Specify the desired network to switch to
+    const desiredNetworkName = "holesky"; // Change to your desired network name
 
-    // Check if we need to switch networks
+    // Check if network switch is necessary
     if (network.name !== desiredNetworkName) {
       console.log(`Switching to ${desiredNetworkName} network...`);
-      await handleNetworkSwitch(desiredNetworkName); // Switch to the desired network
+      await handleNetworkSwitch(desiredNetworkName); // Use your custom handleSwitch function
     }
 
     // Store the address or perform further actions
@@ -228,7 +288,6 @@ export const CONNECT_WALLET = async () => {
     console.log("Error:", err);
   }
 };
-
 
 const waitForEthereum = async (timeout = 5000) => {
   const start = Date.now();
