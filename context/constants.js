@@ -163,6 +163,7 @@ export const CONNECT_WALLET  = async () => {
   try{
 
     if(!window.ethereum) return console.log("please install metamask");
+    if(window.ethereum) console.log("there is an ethereum here");
  await handleNetworkSwitch();
 
  const account = await window.ethereum.request({
@@ -353,6 +354,7 @@ export const addTokenToMetamask  = async () => {
         return "Token not added";
       }
     }catch(e){
+      console.log(e);
       return "failed to add";
     }
   }else{
