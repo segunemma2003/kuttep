@@ -190,7 +190,7 @@ export const CONNECT_WALLET = async () => {
 
     if (!window.ethereum || !window.ethereum.isMetaMask) {
       if (isMobileDevice()) {
-        window.open('https://metamask.app.link/dapp/YOUR_DAPP_URL');
+        window.open('https://metamask.app.link/dapp/https://kuteeapi.netlify.app/');
       } else {
         console.log("Please install MetaMask.");
       }
