@@ -74,9 +74,9 @@
 
 .coin {
   position: absolute;
-  top: 5%;
+  top: 10%;
   width: 5%;
-  left: 30%;
+  left: 20%;
   transform: translateX(50%);
   animation: float 5s ease-in-out infinite;
 }
@@ -85,7 +85,7 @@
   position: absolute;
   width: 5%;
   top: 5%;
-  right: 30%;
+  right:23%;
   transform: translateX(-50%);
   animation: float 8s ease-in-out infinite;
 }
@@ -95,16 +95,16 @@
   top: 150px;
   /* transform: translateX(50%); */
   top: 15%;
-  right: 20%;
-  width: 100px;
+  right: 15%;
+  width: 10%;
   animation: float 6s ease-in-out infinite;
 }
 
 .coin4 {
   position: absolute;
   top: 30%;
-  width: 100px;
-  right: 25%;
+  width: 10%;
+  right: 20%;
   /* left: 100px; */
   animation: float 4s ease-in-out infinite;
 }
@@ -112,16 +112,16 @@
 .coin5 {
   position: absolute;
   top: 20%;
-  width: 100px;
-  left: 22%;
+  width: 10%;
+  left: 15%;
   animation: float 2s ease-in-out infinite;
 }
 
 .coin6 {
   position: absolute;
   top: 35%;
-  left: 28%;
-  width: 100px;
+  left: 20%;
+  width: 10%;
   animation: float 3s ease-in-out infinite;
 }
 
