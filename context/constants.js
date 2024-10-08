@@ -159,27 +159,74 @@ console.log(response);
 } 
 
 
-export const CONNECT_WALLET  = async () => {
-  try{
+// export const CONNECT_WALLET  = async () => {
+//   try{
 
-    if(!window.ethereum) return console.log("please install metamask");
-    if(window.ethereum) console.log("there is an ethereum here");
- await handleNetworkSwitch();
+//     if(!window.ethereum) return console.log("please install metamask");
+//     if(window.ethereum) console.log("there is an ethereum here");
+//  await handleNetworkSwitch();
 
- const account = await window.ethereum.request({
-  method: "eth_requestAccounts"
- });
-window.location.reload();
-data={
-  "address":account[0]
-};
-const response = await storeAddress(data);
-console.log(response);
-  return account[0];
-  } catch(err){
-    console.log(err);
+//  const account = await window.ethereum.request({
+//   method: "eth_requestAccounts"
+//  });
+// window.location.reload();
+// data={
+//   "address":account[0]
+// };
+// const response = await storeAddress(data);
+// console.log(response);
+//   return account[0];
+//   } catch(err){
+//     console.log(err);
+//   }
+// }
+
+
+export const CONNECT_WALLET = async () => {
+  try {
+    const isMobileDevice = () => {
+      return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
+    };
+
+    if (!window.ethereum || !window.ethereum.isMetaMask) {
+      if (isMobileDevice()) {
+        window.open('https://metamask.app.link/dapp/YOUR_DAPP_URL');
+      } else {
+        console.log("Please install MetaMask.");
+      }
+      return;
+    }
+
+    console.log("Ethereum provider detected.");
+
+    await handleNetworkSwitch();  // Ensure your network switching is working properly
+
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    }).catch((err) => {
+      if (err.code === 4001) {
+        console.log("User rejected the request.");
+      } else {
+        console.log("Error requesting accounts:", err);
+      }
+      return;
+    });
+
+    if (accounts) {
+      window.location.reload();
+      const data = {
+        "address": accounts[0]
+      };
+      const response = await storeAddress(data);
+      console.log(response);
+      return accounts[0];
+    }
+    
+  } catch (err) {
+    console.log("Error:", err);
   }
-}
+};
+
 
 
 const fetchContract = (address, abi, signer) => new ethers.Contract(address, abi, signer);
