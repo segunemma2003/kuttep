@@ -3,7 +3,7 @@ import {ethers} from 'ethers';
 import toast from 'react-hot-toast';
 
 import { CHECK_WALLET_CONNECTED, CONNECT_WALLET, GET_BALANCE,CHECK_ACCOUNT_BALANCE, TOKEN_ICO_CONTRACT, ERC20, ERC20_ICO_CONTRACT, TOKEN_ADDRESS, addTokenToMetamask,DISCONNECT_WALLET  } from "./constants";
-import { getAddressReferralCode, storeRecentBuy, storeReferral } from "../utils/api";
+import { getAddressReferralCode, storeRecentBuy, storeReferral } from "../utilss/api";
 
 
 

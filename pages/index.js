@@ -33,14 +33,14 @@ import {Footer,
   Donate,
   UpdatePrice,
   UpdateAddress, 
-  PopupTwo} from "../components/index";
+  PopupTwo} from "../componentsss/index";
 
 import {TOKEN_ICO_Context} from "../context/index";
-import {shortenAddress} from "../utils/index";
-import { getFirstSetting, getRecentBuys } from '../utils/api';
-import ReferralPopup from "../components/ReferralPopup";
-import HowToBuy from "../components/HowToBuy";
-import Staking from "../components/Staking";
+import {shortenAddress} from "../utilss/index";
+import { getFirstSetting, getRecentBuys } from '../utilss/api';
+import ReferralPopup from "../componentsss/ReferralPopup";
+import HowToBuy from "../componentsss/HowToBuy";
+import Staking from "../componentsss/Staking";
 
 const index = () => {
   const {

@@ -3,7 +3,7 @@ import toast  from "react-hot-toast";
 import styles from "../styles/Hero.module.css";
 import { detailsImg, logo, smImg } from "../assets/index.js";
 import Button from "./Button.jsx";
-import {formatNumberWithCommas } from '../utils/index'
+import {formatNumberWithCommas } from '../utilss/index'
 
 
 

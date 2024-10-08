@@ -1,0 +1,54 @@
+.details {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.3125rem;
+  background: #e9ecf3;
+  box-shadow: 0px 0px 4px 1px rgba(35, 98, 245, 0.1);
+  padding: 1rem;
+}
+
+.details > * + * {
+  margin-top: 1rem;
+}
+
+.recipientFee > * + * {
+  margin-top: 1rem;
+}
+
+.exchangeRate > * + * {
+  margin-top: 1rem;
+}
+
+.checkBox {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  color: #00081b;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+@media screen and (min-width: 968px) {
+  .details {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+  }
+
+  .recipientFee > * + * {
+    margin-top: 0rem;
+  }
+
+  .recipientFee,
+  .exchangeRate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .exchangeRate > * + * {
+    margin-top: 0rem;
+  }
+}

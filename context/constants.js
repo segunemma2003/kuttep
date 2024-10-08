@@ -4,7 +4,7 @@ import Web3Modal from "web3modal";
 
 import tokenICO from "./TokenICO.json";
 import erc20 from "./ERC20.json";
-import { storeAddress } from "../utils/api";
+import { storeAddress } from "../utilss/api";
 
 
 export const TOKEN_ADDRESS = "0x6521c566c1f40c77D3A259bBF45855401B0548cC";
