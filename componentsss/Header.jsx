@@ -32,6 +32,14 @@ const Header = ({account,
       setToggle((prev) => !prev);
     };
 
+
+    const connectWallet = async() =>{
+      setLoader(false);
+      const address = await CONNECT_WALLET();
+      setAccount(address);
+    }
+
+    
   useEffect(()=> {
     setLoader(false);
       if(typeof window.ethereum !== "undefined"){
@@ -89,7 +97,7 @@ const Header = ({account,
           </a>
           ):(
             <>
-            <button onClick={()=> connectMetamask()} className={`${styles.navBtn}`}>
+            <button onClick={()=> connectWallet()} className={`${styles.navBtn}`}>
             Connect wallet
             </button>
             </>
