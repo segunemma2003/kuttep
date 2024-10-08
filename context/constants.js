@@ -181,26 +181,25 @@ console.log(response);
 //   }
 // }
 
-
 export const CONNECT_WALLET = async () => {
   try {
     const isMobileDevice = () => {
       return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
     };
 
+    // Ensure MetaMask is available on desktop and mobile browsers
     if (!window.ethereum || !window.ethereum.isMetaMask) {
       if (isMobileDevice()) {
-        window.open('https://metamask.app.link/dapp/https://kuteeapi.netlify.app/');
+        alert("Please use the MetaMask mobile app or install MetaMask in your mobile browser.");
       } else {
-        console.log("Please install MetaMask.");
+        alert("MetaMask is not installed. Please install MetaMask in your browser.");
       }
       return;
     }
 
     console.log("Ethereum provider detected.");
 
-    await handleNetworkSwitch();  // Ensure your network switching is working properly
-
+    // Trigger wallet connection only after a user interaction
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts"
     }).catch((err) => {
@@ -212,7 +211,7 @@ export const CONNECT_WALLET = async () => {
       return;
     });
 
-    if (accounts) {
+    if (accounts && accounts.length > 0) {
       window.location.reload();
       const data = {
         "address": accounts[0]
@@ -220,12 +219,15 @@ export const CONNECT_WALLET = async () => {
       const response = await storeAddress(data);
       console.log(response);
       return accounts[0];
+    } else {
+      console.log("No accounts found or user rejected.");
     }
     
   } catch (err) {
     console.log("Error:", err);
   }
 };
+
 
 
 
