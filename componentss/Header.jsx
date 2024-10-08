@@ -67,6 +67,14 @@ const Header = ({account,
       console.log("Metamask is not installed");
     }
   };
+
+
+  const connectWallet = async() =>{
+    setLoader(true);
+    const address = await CONNECT_WALLET();
+    setAccount(address);
+  }
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
@@ -89,7 +97,7 @@ const Header = ({account,
           </a>
           ):(
             <>
-            <button onClick={()=> connectMetamask()} className={`${styles.navBtn}`}>
+            <button onClick={()=> connectWallet()} className={`${styles.navBtn}`}>
             Connect wallet
             </button>
             </>
