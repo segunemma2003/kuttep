@@ -181,47 +181,53 @@ console.log(response);
 //   }
 // }
 
+
 export const CONNECT_WALLET = async () => {
   try {
-    // Wait for MetaMask to load with a 5-second timeout
-    const ethereum = await waitForEthereum(5000);
-    
-    if (!ethereum) {
-      // MetaMask not detected after waiting
-      console.log("MetaMask not found.");
-      return;
-    }
-
-    console.log("Ethereum provider detected.");
-
-    const accounts = await ethereum.request({
-      method: "eth_requestAccounts"
-    }).catch((err) => {
-      if (err.code === 4001) {
-        console.log("User rejected the request.");
-      } else {
-        console.log("Error requesting accounts:", err);
-      }
-      return;
+    // Create a new instance of Web3Modal
+    const web3Modal = new Web3Modal({
+      cacheProvider: false, // Set to true to cache the provider
+      providerOptions: {},  // Add custom providers here if needed
     });
 
-    if (accounts && accounts.length > 0) {
-      window.location.reload();
-      const data = {
-        "address": accounts[0]
-      };
-      const response = await storeAddress(data);
-      console.log(response);
-      return accounts[0];
-    } else {
-      console.log("No accounts found or user rejected.");
+    // Open the modal to select a wallet
+    const provider = await web3Modal.connect();
+
+    // Create an instance of ethers.js provider
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
+
+    // Get the signer for account access
+    const signer = ethersProvider.getSigner();
+
+    // Get the connected accounts
+    const accounts = await signer.getAddress();
+    
+    // Log the account address
+    console.log("Connected account:", accounts);
+
+    // Get the current network
+    const network = await ethersProvider.getNetwork();
+
+    // Desired network to switch to
+    const desiredNetworkName = "holesky"; // Change this to your desired network
+
+    // Check if we need to switch networks
+    if (network.name !== desiredNetworkName) {
+      console.log(`Switching to ${desiredNetworkName} network...`);
+      await handleNetworkSwitch(desiredNetworkName); // Switch to the desired network
     }
+
+    // Store the address or perform further actions
+    const data = { address: accounts };
+    const response = await storeAddress(data);
+    console.log(response);
+
+    return accounts;
 
   } catch (err) {
     console.log("Error:", err);
   }
 };
-
 
 
 const waitForEthereum = async (timeout = 5000) => {
