@@ -5,15 +5,17 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import tokenICO from "./TokenICO.json";
 import erc20 from "./ERC20.json";
+import price20 from "./Price.json";
 import { storeAddress } from "../utilss/api";
 
 
-export const TOKEN_ADDRESS = "0x6521c566c1f40c77D3A259bBF45855401B0548cC";
+export const TOKEN_ADDRESS = "0x1e9364b8e361ac0BF5BBFaB70778955C8e4BA705";
 export const ERC20_ABI = erc20.abi;
 
-export const OWNER_ADDRESS = "0x54991a05e4bF171B8f2Fa24c08E7C2eae1207Bd9";
-export const CONTRACT_ADDRESS = "0x9Bf3C802b3ce682B8598a0aD6FBA5C8BC59B7407";
+export const OWNER_ADDRESS = "0xe1570f645B22A8774efd0585fC254E8f16EF5553";
+export const CONTRACT_ADDRESS = "0x2D7D248d5fBC132eE652a35305000fAB478ea52B";
 export const CONTRACT_ABI = tokenICO.abi;
+export const PRICE_ABI = price20.abi;
 
 const networks = {
   sepolia: {
@@ -21,10 +23,10 @@ const networks = {
     chainName: "Sepolia",
     nativeCurrency: {
       name: "SepoliaETH",
-      symbol: "SepoliaETH",
+      symbol: "ETH",
       decimals: 18,
     },
-    rpcUrls: ["https://sepolia.infura.io/v3/"],
+    rpcUrls: ["https://ethereum-sepolia-rpc.publicnode.com"],
     blockExplorerUrls: ["https://sepolia.etherscan.io"],
   },
   holesky: {
@@ -135,7 +137,7 @@ const changeNetwork = async({ networkName}) => {
 }
 
 export const handleNetworkSwitch = async() => {
-  const networkName = "holesky";
+  const networkName = "sepolia";
   await changeNetwork({ networkName});
 } 
 
@@ -269,7 +271,7 @@ export const CONNECT_WALLET = async () => {
     console.log("Current network:", network.name);
 
     // Specify the desired network to switch to
-    const desiredNetworkName = "holesky"; // Change to your desired network name
+    const desiredNetworkName = "sepolia"; // Change to your desired network name
 
     // Check if network switch is necessary
     if (network.name !== desiredNetworkName) {
@@ -364,7 +366,7 @@ export const ERC20  = async (TOKEN_ADDRESS) => {
     balance: ethers.utils.formatEther(balance.toString()),
     chainId: network.chainId
    };
-  //  console.log(token);
+   console.log(token);
     return token;
 
   } catch(err){
