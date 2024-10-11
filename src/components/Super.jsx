@@ -4,14 +4,10 @@ import styles from "./Super.module.css";
 import Button from "./Button";
 import { communityImage } from "../assets/assets";
 import Modal from "./Modal";
-import Stakings from "./Stakings";
 import HowToBuy from "./HowToBuy";
 import { useNavigate } from 'react-router-dom'; 
 
-const buttons = [
-  { ID: "HOB", text: "How To Buy", colored: true },
-  { ID: "Stkn", text: "Staking", colored: false },
-];
+
 
 const Super = () => {
   const [button, setButton] = useState("");

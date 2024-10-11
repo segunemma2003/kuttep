@@ -2,26 +2,23 @@ import React, { useState } from "react";
 import styles from "./Earn.module.css";
 import Button from "./Button";
 import { earnImage, logo } from "../assets/assets";
-import { useModal } from "../App";
 import Modal from "./Modal";
 import Staking from "./Staking";
 import { useNavigate } from 'react-router-dom'; 
 
 const Earn = () => {
-  const [modal, setModal] = useState(false);
+
   // const [button, setButton] = useState(null);
   const navigate = useNavigate(); 
 
-  const modalHandler = () => {
-    setModal(!modal);
-  };
+
 
   const navigateToHowToBuy = () =>
     {
       navigate('/howtobuy');
     }
 
-  console.log(modal);
+
 
   return (
     <section className={`section ${styles.earnSection} `}>

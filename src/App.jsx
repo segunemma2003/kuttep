@@ -29,9 +29,7 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 const ModalContext = createContext();
 
-export const useModal = () => {
-  useContext(ModalContext);
-};
+
 
 
 function App() {

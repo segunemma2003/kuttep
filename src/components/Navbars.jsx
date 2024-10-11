@@ -6,7 +6,6 @@ import Fade from "react-awesome-reveal";
 
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount } from "wagmi";
-import Button from "./Button";
 
 const Navbars = () => {
   const [toggle, setToggle] = useState(false);
@@ -39,16 +38,12 @@ const Navbars = () => {
         className={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> </Fade>)
         :(
           <Fade delay={2000} duration={1000}>
-        <Button 
-        className={`${styles.navBtn}`} 
-        text="Connect Wallet"
-        clickFunction={() => {
+        <button className={`${styles.navBtn}`} onClick={() =>  {
           console.log("open");
-          open();
-        }}
-        />
-          {/* Connect wallet */}
-        {/* </button> */}
+          console.log(  open());
+        }}>
+          Connect wallet
+        </button>
         </Fade>
         )
         }
