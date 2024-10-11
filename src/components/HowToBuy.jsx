@@ -1,7 +1,11 @@
 import React from "react";
+import Navbars from "./Navbars";
+import Footers from "./Footer";
 
 const HowToBuy = () => {
   return (
+    <>
+    <Navbars />
     <section className={`section `}>
       <div className={`sectionContainer `}>
         <div
@@ -72,6 +76,8 @@ const HowToBuy = () => {
         </div>
       </div>
     </section>
+    <Footers />
+    </>
   );
 };
 

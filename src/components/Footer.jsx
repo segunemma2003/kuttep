@@ -2,8 +2,20 @@ import React from "react";
 import styles from "./Footer.module.css";
 import { logo } from "../assets/assets";
 import Button from "./Button";
+import { useNavigate } from 'react-router-dom'; 
+import { Fade } from "react-awesome-reveal";
 
 const Footers = () => {
+  const navigate = useNavigate(); 
+
+  const navigateToBuy = () => {
+    navigate('/buy');  // In Next.js
+  };
+  const navigateToHowToBuy = () =>
+    {
+      navigate('/howtobuy');
+    }
+  
   return (
     <section className={`section ${styles.footerSection} `}>
       <div className={`sectionContainer pb-[1rem]`}>
@@ -12,12 +24,16 @@ const Footers = () => {
             <div
               className={` flex justify-center bg-[#fff] w-[120px] p-[1rem] rounded-full mx-auto `}
             >
+              <Fade>
               <img src={logo} className={`w-[200px]`} />
+              </Fade>
+              
             </div>
 
             <div className="flex gap-3">
-              <Button colored text={`Join Presale`} />
-              <Button text={`How to buy?`} />
+              
+            <Button colored text={`Join presale`} clickFunction={navigateToBuy} />
+              <Button text={`How to buy?`} clickFunction={navigateToHowToBuy} />
             </div>
           </div>
 
@@ -25,37 +41,37 @@ const Footers = () => {
             <div className={`${styles.menuItem}`}>
               <p className="font-bold">About</p>
               <ul>
-                <li>Tokenomics</li>
-                <li>How to buy</li>
+                {/* <li>Tokenomics</li>
+                <li>How to buy</li> */}
               </ul>
             </div>
 
             <div>
               <p className="font-bold">Docs</p>
               <ul>
-                <li>Whitepaper</li>
+                {/* <li>Whitepaper</li>
                 <li>Audit</li>
                 <li>Report</li>
                 <li>KYC </li>
-                <li>Transparency</li>
+                <li>Transparency</li> */}
               </ul>
             </div>
 
             <div>
               <p className="font-bold">Terms</p>
               <ul>
-                <li>Ciookies </li>
+                {/* <li>Ciookies </li>
                 <li>Privacy</li>
                 <li>Policy</li>
-                <li>Terms of Service</li>
+                <li>Terms of Service</li> */}
               </ul>
             </div>
 
             <div>
               <p className="font-bold">About</p>
               <ul>
-                <li>Tokenomics</li>
-                <li>How to buy</li>
+                {/* <li>Tokenomics</li> */}
+                {/* <li>How to buy</li> */}
               </ul>
             </div>
           </div>

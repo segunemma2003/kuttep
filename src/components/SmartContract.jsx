@@ -4,11 +4,18 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import Button from "./Button";
 import { smartContractBigImage, smartContractSmallImage } from "../assets/assets";
 import { Fade } from "react-awesome-reveal";
+import { useNavigate } from 'react-router-dom'; 
+const contractAdd = `0x2D7D248d5fBC132eE652a35305000fAB478ea52B`;
 
-const contractAdd = `0xD010705f0974E52EBfac6BB28f1D1CfdC7909534`;
+
 const SmartContract = () => {
   const [copied, setCopied] = useState(null);
+  const navigate = useNavigate(); 
 
+  const navigateToBuy = () => {
+    navigate('/buy');  // In Next.js
+  };
+  
   const copyHandler = () => {
     setCopied(true);
   };
@@ -47,7 +54,7 @@ const SmartContract = () => {
               <p className="text-center">Contract address</p>
               <div className={`flex items-center justify-center w-full`}>
                 <p className={`${styles.address}`}>
-                  0xa7F4195F10F1a62B102bD683eAB131d657A6c6e4
+                0x2D7D248d5fBC132eE652a35305000fAB478ea52B
                 </p>
                 <CopyToClipboard text={contractAdd}>
                   <button onClick={copyHandler} className={`${styles.btn}`}>
@@ -57,8 +64,10 @@ const SmartContract = () => {
               </div>
             </div>
           </div>
-
-          <Button colored text={`Join Presale`} />
+<Fade>
+<Button colored text={`Join presale`} clickFunction={navigateToBuy} />
+</Fade>
+         
         </div>
       </div>
     </section>

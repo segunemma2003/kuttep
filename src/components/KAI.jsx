@@ -2,8 +2,18 @@ import React from "react";
 import styles from "./KAI.module.css";
 import Button from "./Button";
 import { KaiImage, kaiSmallImage } from "../assets/assets";
+import { useNavigate } from 'react-router-dom'; 
+
 
 const KAI = () => {
+  const navigate = useNavigate(); 
+  const navigateToBuy = () => {
+    navigate('/buy');  // In Next.js
+  };
+
+  const openWhitepaper = () => {
+    window.open('/whitepaper.pdf', '_blank'); // Replace with the correct path to your whitepaper
+  };
   return (
     <section className={`section ${styles.kaiSection}`}>
       <div className={`sectionContainer`}>
@@ -58,8 +68,8 @@ const KAI = () => {
           </div>
 
           <div className="flex gap-3">
-            <Button colored text={`Join Presale`} />
-            <Button text={`Whitepaper`} />
+            <Button colored text={`Join Presale`}  clickFunction={navigateToBuy}/>
+            <Button text={`Whitepaper`} clickFunction={openWhitepaper} />
           </div>
         </div>
       </div>

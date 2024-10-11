@@ -2,8 +2,23 @@ import React from "react";
 import styles from "./Hero.module.css";
 import { detailsImg, logo, smImg } from "../assets/assets";
 import Button from "./Button";
+import { useWeb3Modal } from "@web3modal/react";
+import { useAccount } from "wagmi";
+import { useNavigate } from 'react-router-dom'; 
 
 const Hero = () => {
+  const { address } = useAccount();
+  const { open } = useWeb3Modal();
+  const navigate = useNavigate(); 
+
+const navigateToBuy = () => {
+  navigate('/buy');  // In Next.js
+};
+
+
+  const openWhitepaper = () => {
+    window.open('/whitepaper.pdf', '_blank'); // Replace with the correct path to your whitepaper
+  };
   return (
     <section className={`${styles.section} relative section `}>
       <div className={`${styles.hero} `}>
@@ -29,8 +44,11 @@ const Hero = () => {
           <div
             className={`${styles.buttonContainer} flex gap-3 justify-center`}
           >
-            <Button colored text={`Join presale`} />
-            <Button text={`Whitepaper`} />
+           {
+            address? <Button colored text={`Join presale`} clickFunction={navigateToBuy} />
+                    :<Button colored text={`Connect Wallet`} clickFunction={()=>open()} /> 
+           } 
+            <Button text={`Whitepaper`} clickFunction={openWhitepaper} />
           </div>
 
           <div className="bg-[#ffa800] pt-[1rem] mt-[3rem] relative max-w-[500px] mx-auto">

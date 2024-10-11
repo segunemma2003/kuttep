@@ -13,6 +13,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { sepolia, localhost, bsc } from "wagmi/chains";
 import Homes from "./pages/Homes.jsx";
 import { createContext, useContext } from "react";
+import HowToBuy from "./components/HowToBuy.jsx";
 
 
 const chains = [sepolia];
@@ -42,6 +43,7 @@ function App() {
             {/* <Route path="/" element={<Home />} /> */}
             <Route path="/" element={<Homes />} />
             <Route path="/buy" element= {<Buy />} />
+            <Route path="/howtobuy" element= {<HowToBuy />} />
           </Routes>
         </Router>
       </WagmiConfig>

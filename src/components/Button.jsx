@@ -4,7 +4,7 @@ import styles from "./Button.module.css";
 const Button = ({ text, colored, width, clickFunction, type, style }) => {
   return (
     <button
-      className={` flex gap-2 justify-center ${
+      className={` flex gap-2 justify-center whitespace-nowrap ${
         colored ? styles.colored : styles.white
       } ${width}  ${style}`}
       onClick={clickFunction}

@@ -5,14 +5,21 @@ import { earnImage, logo } from "../assets/assets";
 import { useModal } from "../App";
 import Modal from "./Modal";
 import Staking from "./Staking";
+import { useNavigate } from 'react-router-dom'; 
 
 const Earn = () => {
   const [modal, setModal] = useState(false);
   // const [button, setButton] = useState(null);
+  const navigate = useNavigate(); 
 
   const modalHandler = () => {
     setModal(!modal);
   };
+
+  const navigateToHowToBuy = () =>
+    {
+      navigate('/howtobuy');
+    }
 
   console.log(modal);
 
@@ -50,12 +57,12 @@ const Earn = () => {
           <Button
             colored
             text={`Start Referring`}
-            clickFunction={modalHandler}
+            clickFunction={navigateToHowToBuy}
           />
         </div>
       </div>
 
-      {modal && (
+      {/* {modal && (
         <Modal modalHandler={modalHandler}>
           <div className={`sectionContainer `}>
             <div className={`contentContainer bg-[#fff]`}>
@@ -65,7 +72,7 @@ const Earn = () => {
             </div>
           </div>
         </Modal>
-      )}
+      )} */}
     </section>
   );
 };

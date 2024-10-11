@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./SpaceGuard.module.css";
 import Button from "./Button";
 import { spaceImage, spaceSmallImage } from "../assets/assets";
+import { Fade } from "react-awesome-reveal";
 
 const SpaceGuards = () => {
   return (
@@ -24,7 +25,10 @@ const SpaceGuards = () => {
           </p>
 
           <div>
+            <Fade>
             <img src={spaceImage} />
+            </Fade>
+            
           </div>
         </div>
       </div>
