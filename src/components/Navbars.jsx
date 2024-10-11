@@ -29,22 +29,24 @@ const Navbars = () => {
           <h2 className={`${styles.logoTitle}`}>Kutte Ai</h2>
         </div>
         {address ? (
-           <Fade delay={2000} duration={1000}>
+          //  <Fade delay={2000} duration={1000}>
         <button
         onClick={() =>{
           console.log("open");
           open();
         }} 
-        className={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> </Fade>)
+        className={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> 
+        // </Fade>
+      )
         :(
-          <Fade delay={2000} duration={1000}>
+          // <Fade delay={2000} duration={1000}>
         <button className={`${styles.navBtn}`} onClick={() => {
           console.log("open");
           open();
         }}>
           Connect wallet
         </button>
-        </Fade>
+        {/* </Fade> */}
         )
         }
       </div>
