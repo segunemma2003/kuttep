@@ -46,7 +46,7 @@ const Navbars = () => {
         }}>
           Connect wallet
         </button>
-        {/* </Fade> */}
+        // {/* </Fade> */}
         )
         }
       </div>
