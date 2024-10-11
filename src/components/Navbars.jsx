@@ -31,12 +31,17 @@ const Navbars = () => {
         {address ? (
            <Fade delay={2000} duration={1000}>
         <button
-        type="button"
-        onClick={() => open()} 
-        style={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> </Fade>)
+        onClick={() =>{
+          console.log("open");
+          open();
+        }} 
+        className={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> </Fade>)
         :(
           <Fade delay={2000} duration={1000}>
-        <button  type="button" className={`${styles.navBtn}`} onClick={() => open()}>
+        <button className={`${styles.navBtn}`} onClick={() => {
+          console.log("open");
+          open();
+        }}>
           Connect wallet
         </button>
         </Fade>
