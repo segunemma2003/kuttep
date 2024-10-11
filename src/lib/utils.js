@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge"
+import { TOKENS } from "../addresses";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -52,4 +53,11 @@ export function formatNumberWithCommas(number) {
   }
   
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+
+
+export const getTokenAddress  = (tokenName) => {
+    return TOKENS[tokenName]
 }

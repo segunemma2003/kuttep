@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { plane } from "../assets/assets";
 import styles from "./Staking.module.css";
 import Button from "./Button";
@@ -9,8 +9,122 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { maxUint256, parseEther, parseUnits, zeroAddress } from "viem";
+import { getWalletClient } from "wagmi/actions";
+import { CONTRACT_ADDRESS } from "../addresses";
+import presaleAbi from "../presaleAbi.json"
+import { erc20ABI, usePublicClient } from "wagmi";
+import { getTokenAddress } from "../lib/utils";
 
 const Staking = () => {
+  
+  const [amount, setAmount] = useState("0")
+  const [buyToken, setBuyToken] = useState("ETH")
+  //  const walletClient = getWalletClient()
+  const publicClient = usePublicClient()
+
+
+
+  const getTokenBalanceAndAllowance = async (tokenAddress, ownerAddress, spenderAddress) => {
+      const[balance, allowance, decimals] = await Promise.all([
+          publicClient.readContract({
+              address : tokenAddress,
+              abi : erc20ABI,
+              functionName : "balanceOf",
+              args : [ownerAddress]
+          }),
+          publicClient.readContract({
+              address : tokenAddress,
+              abi : erc20ABI,
+              functionName : "allowance",
+              args : [ownerAddress, spenderAddress]
+          }),
+          publicClient.readContract({
+              address : tokenAddress,
+              abi : erc20ABI,
+              functionName : "decimals",
+          }),
+      ])
+
+      return {balance, allowance, decimals}
+
+  }
+
+    const approveSpender = async (tokenAddress, spender) => {
+      const walletClient = await getWalletClient();
+      const hash = await  walletClient.writeContract({
+        address : tokenAddress,
+        abi : erc20ABI,
+        functionName : "approve",
+        args : [spender, maxUint256]
+      })
+      await publicClient.waitForTransactionReceipt({hash})
+      return true
+    }
+
+
+  // TODO add referral
+  const referral = zeroAddress
+
+  const handleBuy = async () => {
+    const tokenDetails = await publicClient.readContract({address : CONTRACT_ADDRESS,
+        abi : presaleAbi.abi,
+        functionName : "getTokenDetails",
+      })
+
+
+    const walletClient = await getWalletClient();
+    if(!walletClient) {
+      // Wallet not connected
+      return 
+    }
+    
+    
+    if(buyToken == "ETH"){
+      const amountWei = parseEther(amount)
+      const hash = await walletClient.writeContract({
+        address : CONTRACT_ADDRESS,
+        abi :  presaleAbi,
+        functionName : "buyToken",
+        args: [BigInt(amount), referral],
+        value : tokenDetails.tokenSalePrice * amountWei
+
+      })
+      await publicClient.waitForTransactionReceipt({hash})
+    }else{
+      const tokenAddress = getTokenAddress(buyToken)
+      if(!tokenAddress) {
+        // Notify user that the token is not supported
+        return  
+
+      }
+      
+      const {balance, allowance, decimals} = await getTokenBalanceAndAllowance( tokenAddress, walletClient.account.address, CONTRACT_ADDRESS)
+      const amountWei = parseUnits(amount, decimals)
+
+      if(balance < amountWei) {
+        // Insufficient Balance
+        return 
+      }
+
+      if(amountWei > allowance) {
+        await approveSpender(tokenAddress, CONTRACT_ADDRESS)
+      }
+
+      const hash = await walletClient.writeContract({
+        address : CONTRACT_ADDRESS,
+        abi : presaleAbi.abi,
+        functionName : "buyWithOtherCryptos",
+        args : [tokenAddress, amountWei, referral]
+      })
+      await publicClient.waitForTransactionReceipt({hash})
+    }
+
+  
+    
+  }
+
+
   return (
     <section className={`section bg-[#FAD7C1] `}>
       <div className={`sectionContainer `}>
@@ -135,7 +249,7 @@ const Staking = () => {
             <div className="flex flex-col w-full gap-4 md:flex-row">
               {/******* INPUT ONE SECTION   ***************/}
               <div className={`${styles.inputContainer} mb-[1rem] md:mb-0 `}>
-                <input type="number" className="w-full" />
+                <input type="number" className="w-full" onChange={(e) => setAmount(e.target.value)}/>
                 <p>SOL</p>
               </div>
               {/******* INPUT TWO SECTION   ***************/}
@@ -174,7 +288,7 @@ const Staking = () => {
             </div>
 
             <div className="flex mt-[2rem] justify-center">
-              <Button colored text={`How To Buy`} />
+              <Button colored text={`How To Buy`} clickFunction={handleBuy} />
             </div>
           </div>
         </div>
