@@ -1,0 +1,18 @@
+.footerSection {
+  background-color: #ffa800;
+}
+
+.footerMenu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  padding: 2rem 2rem 2rem 3rem;
+  /* align-items: center; */
+  gap: 1rem;
+  width: 100%;
+}
+
+@media screen and (min-width: 984px) {
+  .logoMenu {
+    display: flex;
+  }
+}

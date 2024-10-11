@@ -1,0 +1,19 @@
+.liquiditySection {
+  background-color: #ffefbc;
+}
+
+.details {
+  background: linear-gradient(180deg, #fec049 0%, #ffa800 100%);
+  border: 3px solid #ffffff;
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+.detailsTitle {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #000000;
+}

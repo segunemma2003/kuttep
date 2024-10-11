@@ -1,0 +1,35 @@
+.liquiditySection {
+  background-color: #ffefbc;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  background-color: #d7bfab;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+input[type="number"] {
+  -webkit-appearance: none;
+
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+@media screen and (min-width:965px){
+    .inputContainer{
+        width: 100%;
+    }
+}

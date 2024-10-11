@@ -1,0 +1,48 @@
+.updateSection {
+  background-color: #fbb58a;
+}
+
+.updateText {
+  max-width: 80%;
+}
+
+.inputSection {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inputContainer {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  height: 50px;
+  background-color: #964c1e;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+label {
+  color: #fff;
+}
+
+.textarea {
+  height: 100px;
+  padding: 1rem;
+  color: #fff;
+  background-color: #964c1e;
+  border-radius: 10px;
+}
+
+@media screen and (min-width: 968px) {
+  .inputSection {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}

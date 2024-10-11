@@ -1,0 +1,87 @@
+.smartContractSection {
+  background-color: #f4d4ff;
+}
+
+.detailsCard {
+  background: linear-gradient(180deg, #f3b1a2 0%, #ffa800 100%);
+  border-radius: 6px;
+
+  color: #fff;
+  /* max-width: 500px;
+  margin-left: auto;
+  margin-right: auto; */
+
+  padding: 1rem 1rem;
+}
+
+.detailsText {
+  font-size: 0.6rem;
+}
+.detailsTitle {
+  font-weight: bold;
+  font-size: 0.6rem;
+
+  color: #ffffff;
+}
+
+.address {
+  background: #4e4e4e;
+  /* border-radius: 6px; */
+  padding: 0.8rem;
+  font-size: 0.7rem;
+}
+
+.btn {
+  background: linear-gradient(
+    90deg,
+    #3b2621 -5.81%,
+    #3b2621 44.19%,
+    #964c1e 94.19%
+  );
+  background-blend-mode: hard-light;
+  padding: 0.8rem;
+  font-size: 0.7rem;
+}
+
+@media screen and (max-width: 450px) {
+  .address,
+  .btn {
+    font-size: 0.3rem;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .address,
+  .btn {
+    font-size: 0.5rem;
+  }
+}
+@media screen and (min-width: 913px) {
+  .heroContainer > * + * {
+    margin-top: 3.5rem;
+  }
+  .detailsText {
+    font-size: 1rem;
+  }
+  .detailsTitle {
+    font-weight: bold;
+    font-size: 1rem;
+
+    color: #ffffff;
+  }
+
+  .heroTitle {
+    font-size: 4.5rem;
+  }
+
+  .heroText {
+    font-size: 1.3rem;
+
+    margin-top: -1.5rem;
+  }
+  .address {
+  }
+
+  .btn {
+  }
+}

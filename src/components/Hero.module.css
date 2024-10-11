@@ -1,0 +1,163 @@
+.section {
+  background-color: #ffa800;
+  width: 100%;
+}
+.hero {
+  background: url("../assets/assets/bgImage.png");
+  width: 100%;
+  background-repeat: no-repeat;
+  border-top-right-radius: 73px;
+  /* border-bottom-left-radius: 73px;
+  border-bottom-right-radius: 73px; */
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.heroContainer > * + * {
+  margin-top: 1rem;
+}
+
+.imageContainer {
+  background-color: #fff;
+  padding: 3.5rem;
+  border-radius: 50%;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroTitle {
+  font-family: "Sigmar";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3rem;
+  color: #ffa800;
+
+  text-shadow: 0px 0px 15.7px rgba(0, 0, 0, 0.25);
+}
+
+.heroText {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+
+  text-align: center;
+  margin-top: -1rem;
+  color: #ffffff;
+}
+
+.detailsCard {
+  display: flex;
+  /* background-color: #ffa800; */
+  color: #fff;
+  /* max-width: 500px;
+  margin-left: auto;
+  margin-right: auto; */
+
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  align-items: center;
+}
+
+.detailsText {
+  font-size: 0.6rem;
+}
+.detailsTitle {
+  font-weight: bold;
+  font-size: 0.6rem;
+
+  color: #ffffff;
+}
+
+.coin {
+  position: absolute;
+  top: 10%;
+  width: 5%;
+  left: 20%;
+  transform: translateX(50%);
+  animation: float 5s ease-in-out infinite;
+}
+
+.coin2 {
+  position: absolute;
+  width: 5%;
+  top: 5%;
+  right:23%;
+  transform: translateX(-50%);
+  animation: float 8s ease-in-out infinite;
+}
+
+.coin3 {
+  position: absolute;
+  top: 150px;
+  /* transform: translateX(50%); */
+  top: 15%;
+  right: 15%;
+  width: 10%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.coin4 {
+  position: absolute;
+  top: 30%;
+  width: 10%;
+  right: 20%;
+  /* left: 100px; */
+  animation: float 4s ease-in-out infinite;
+}
+
+.coin5 {
+  position: absolute;
+  top: 20%;
+  width: 10%;
+  left: 15%;
+  animation: float 2s ease-in-out infinite;
+}
+
+.coin6 {
+  position: absolute;
+  top: 35%;
+  left: 20%;
+  width: 10%;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 913px) {
+  .heroContainer > * + * {
+    margin-top: 3.5rem;
+  }
+  .detailsText {
+    font-size: 1rem;
+  }
+  .detailsTitle {
+    font-weight: bold;
+    font-size: 1rem;
+
+    color: #ffffff;
+  }
+
+  .heroTitle {
+    font-size: 4.5rem;
+  }
+
+  .heroText {
+    font-size: 1.3rem;
+
+    margin-top: -1.5rem;
+  }
+}

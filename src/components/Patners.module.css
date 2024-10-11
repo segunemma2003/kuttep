@@ -1,0 +1,20 @@
+.partnerSection {
+  background-color: #d4e3ff;
+}
+
+.patnerContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.item {
+  display: flex;
+  height: 130px;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: #6c8cc4;
+}
