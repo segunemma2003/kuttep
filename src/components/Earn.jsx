@@ -15,7 +15,7 @@ const Earn = () => {
 
   const navigateToHowToBuy = () =>
     {
-      navigate('/howtobuy');
+      navigate('/buy');
     }
 
 
