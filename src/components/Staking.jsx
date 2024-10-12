@@ -18,6 +18,7 @@ import tokenAbi from "../tokenAbi.json"
 import { erc20ABI, usePublicClient } from "wagmi";
 import { getTokenAddress } from "../lib/utils";
 import { useAccount } from "wagmi";
+import { storeRecentBuy } from "../lib/api";
 
 const Staking = () => {
   const { address } = useAccount();
@@ -78,7 +79,8 @@ const Staking = () => {
         console.log(address);
         console.log(tokenDetails);
         const tokenBal = tokenDetails
-        setTokenBal(Number(tokenBal));
+        const tokenBalInNormal = ethers.utils.formatUnits(tokenBal, 18); // Use the correct number of decimals for the token
+setTokenBal(Number(tokenBalInNormal)); 
       } catch (error) {
         console.error("Error fetching token details:", error);
       }
@@ -153,65 +155,81 @@ const Staking = () => {
   const referral = zeroAddress
 
   const handleBuy = async () => {
-    
-
-    const walletClient = await getWalletClient({chainId: 11155111});
-    if(!walletClient) {
-      // Wallet not connected
-      return 
+    // Get wallet client
+    const walletClient = await getWalletClient({ chainId: 11155111 });
+    if (!walletClient) {
+      console.log("Wallet not connected");
+      // Notify the user
+      return;
     }
-    
-
-    console.log(amount);
-    try{
-    if(selectedCurrency == "ETH"){
-      const amountWei = parseEther(amount)
-      const totalAmountInEth = ethers.utils.formatEther(tokenDetail[4])
-      console.log(Number(totalAmountInEth * amount))
-      const hash = await walletClient.writeContract({
-        address : CONTRACT_ADDRESS,
-        abi :  presaleAbi.abi,
-        functionName : "buyToken",
-        args: [BigInt(amount), referral],
-        value : Number(totalAmountInEth * amount)
-
-      })
-      await publicClient.waitForTransactionReceipt({hash})
-    }else{
-      const tokenAddress = getTokenAddress(buyToken)
-      if(!tokenAddress) {
-        // Notify user that the token is not supported
-        return  
-
-      }
-      
-      const {balance, allowance, decimals} = await getTokenBalanceAndAllowance( tokenAddress, walletClient.account.address, CONTRACT_ADDRESS)
-      const amountWei = parseUnits(amount, decimals)
-
-      if(balance < amountWei) {
-        // Insufficient Balance
-        return 
-      }
-
-      if(amountWei > allowance) {
-        await approveSpender(tokenAddress, CONTRACT_ADDRESS)
-      }
-
-      const hash = await walletClient.writeContract({
-        address : CONTRACT_ADDRESS,
-        abi : presaleAbi.abi,
-        functionName : "buyWithOtherCryptos",
-        args : [tokenAddress, amountWei, referral]
-      })
-      await publicClient.waitForTransactionReceipt({hash})
-    }
-  }catch(error){
-    console.log("data error");
-    console.error("Transaction error:", error);
-  }
   
-    
-  }
+    console.log(amount);
+    try {
+      if (selectedCurrency === "ETH") {
+        // const pricePerTokenInWei = ethers.utils.parseUnits(tokenDetails.tokenPrice.toString(), "wei");
+        const totalAmountInEthWei = ethers.utils.parseUnits(tokenDetail[4].toString(), "wei"); // Assuming tokenDetail[4] is in Wei
+        const totalPriceInWei = totalAmountInEthWei.mul(ethers.BigNumber.from(amount));// Ensure amount is in BigInt if necessary
+        
+        // Multiply totalAmountInEthWei by the amount
+        
+  
+        const hash = await walletClient.writeContract({
+          address: CONTRACT_ADDRESS,
+          abi: presaleAbi.abi,
+          functionName: "buyToken",
+          args: [Number(amount), referral],
+          gasLimit: ethers.utils.hexlify(8000000),
+          value: totalPriceInWei, // Ensure proper usage of BigInt here
+        });
+  
+        await publicClient.waitForTransactionReceipt({ hash });
+        const buy_data = {
+          "address":address,
+          "amount": Number(amount)
+      };
+      await storeRecentBuy(buy_data);
+        window.location.reload();
+      } else {
+        const tokenAddress = getTokenAddress(buyToken);
+        if (!tokenAddress) {
+          console.log("Token not supported");
+          // Notify user that the token is not supported
+          return;
+        }
+  
+        const { balance, allowance, decimals } = await getTokenBalanceAndAllowance(
+          tokenAddress,
+          walletClient.account.address,
+          CONTRACT_ADDRESS
+        );
+        const amountWei = parseUnits(amount, decimals); // Use correct decimals
+  
+        if (balance < amountWei) {
+          console.log("Insufficient Balance");
+          // Notify user about insufficient balance
+          return;
+        }
+  
+        if (amountWei > allowance) {
+          console.log("Approving spender...");
+          await approveSpender(tokenAddress, CONTRACT_ADDRESS);
+        }
+  
+        const hash = await walletClient.writeContract({
+          address: CONTRACT_ADDRESS,
+          abi: presaleAbi.abi,
+          functionName: "buyWithOtherCryptos",
+          args: [tokenAddress, BigInt(amountWei), referral], // Use BigInt if necessary
+        });
+  
+        await publicClient.waitForTransactionReceipt({ hash });
+      }
+    } catch (error) {
+      console.error("Transaction error:", error);
+      // Optionally notify the user about the error in a user-friendly way
+    }
+  };
+  
 
 
   return (
