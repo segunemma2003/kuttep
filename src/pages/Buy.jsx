@@ -1,4 +1,4 @@
-import { useWeb3Modal } from "@web3modal/react";
+import { useAppKit } from "@reown/appkit/react";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Navbars from "../components/Navbars";
@@ -8,16 +8,13 @@ import Footers from "../components/Footer";
 
 
 
-
-
-
 const Buy = () => {
 
     const [amount, setAmount] = useState("0");
   const [output, setOutput] = useState(0);
   const [buyToken, setBuyToken] = useState("bnb");
   const { address } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
 
   useEffect(() => {

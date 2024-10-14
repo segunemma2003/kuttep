@@ -10,15 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { maxUint256, parseEther, parseUnits, zeroAddress } from "viem";
-import { getWalletClient } from "wagmi/actions";
+import { erc20Abi, maxUint256, parseEther, parseUnits, zeroAddress } from "viem";
 import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../addresses";
 import presaleAbi from "../presaleAbi.json"
 import tokenAbi from "../tokenAbi.json"
-import { erc20ABI, usePublicClient } from "wagmi";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { getTokenAddress } from "../lib/utils";
 import { useAccount } from "wagmi";
 import { storeRecentBuy } from "../lib/api";
+
 
 const Staking = () => {
   const { address } = useAccount();
@@ -30,7 +30,8 @@ const Staking = () => {
   const [tokenBal, setTokenBal] = useState(0);
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH'); // Default to ETH
-
+  const {data : walletClient} = useWalletClient()
+  
   const currencies = [
     { id: 'ETH', label: 'ETH' },
     { id: 'USDT', label: 'USDT' },
@@ -108,7 +109,7 @@ setTokenBal(Number(tokenBalInNormal));
     
 
   }
-  //  const walletClient = getWalletClient()
+  
   const publicClient = usePublicClient()
 
 
@@ -117,19 +118,19 @@ setTokenBal(Number(tokenBalInNormal));
       const[balance, allowance, decimals] = await Promise.all([
           publicClient.readContract({
               address : tokenAddress,
-              abi : erc20ABI.abi,
+              abi : erc20Abi,
               functionName : "balanceOf",
               args : [ownerAddress]
           }),
           publicClient.readContract({
               address : tokenAddress,
-              abi : erc20ABI.abi,
+              abi : erc20Abi,
               functionName : "allowance",
               args : [ownerAddress, spenderAddress]
           }),
           publicClient.readContract({
               address : tokenAddress,
-              abi : erc20ABI.abi,
+              abi : erc20Abi,
               functionName : "decimals",
           }),
       ])
@@ -139,10 +140,9 @@ setTokenBal(Number(tokenBalInNormal));
   }
 
     const approveSpender = async (tokenAddress, spender) => {
-      const walletClient = await getWalletClient();
       const hash = await  walletClient.writeContract({
         address : tokenAddress,
-        abi : erc20ABI.abi,
+        abi : erc20Abi,
         functionName : "approve",
         args : [spender, maxUint256]
       })
@@ -156,7 +156,11 @@ setTokenBal(Number(tokenBalInNormal));
 
   const handleBuy = async () => {
     // Get wallet client
-    const walletClient = await getWalletClient({ chainId: 11155111 });
+
+    console.log("About to connect")
+    
+    
+    console.log(walletClient)
     if (!walletClient) {
       console.log("Wallet not connected");
       // Notify the user

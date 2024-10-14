@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import logo from "../assets/img17.png";
 import Fade from "react-awesome-reveal";
+import { useAppKit } from "@reown/appkit/react";
 
-import { useWeb3Modal } from "@web3modal/react";
+
 import { useAccount } from "wagmi";
 const Navbar = () => {
   // const [address, setAddress] = useState("");
   const { address } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
   return (
     <>

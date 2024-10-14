@@ -4,14 +4,14 @@ import "../App.css";
 import { logo } from "../assets/assets";
 import Fade from "react-awesome-reveal";
 
-import { useWeb3Modal } from "@web3modal/react";
+import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from "wagmi";
 import { storeAddress } from "../lib/api";
 
 const Navbars = () => {
   const [toggle, setToggle] = useState(false);
   const { address } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
 
   useEffect(() => {

@@ -41,15 +41,17 @@ import "@splidejs/splide/dist/css/splide.min.css";
 import RoadmapComp from "../components/RoadmapComp";
 import pdf from "../assets/PUDEL.pdf";
 
-import { Contract, utils } from "ethers";
+// import { Contract, utils } from "ethers";
 import tokenAbi from "../tokenAbi.json";
 import presaleAbi from "../presaleAbi.json";
 
-import { useWeb3Modal } from "@web3modal/react";
+import { useAppKit } from "@reown/appkit/react";
+
 import { useAccount } from "wagmi";
-import { parseEther } from "ethers/lib/utils";
+// import { parseEther } from "ethers/lib/utils";
 
 import { getPublicClient, getWalletClient } from "@wagmi/core";
+import { parseEther } from "viem";
 
 const IconArr = [
   {
@@ -94,41 +96,7 @@ const IconArr = [
   },
 ];
 
-const RMArr1 = [
-  { text: "Design Graphics" },
-  { text: "Development (contract, website)" },
-  { text: "Presa/e & Launch" },
-  { text: "Coinmarketcap Listing" },
-  { text: "Big Marketing Campaigns" },
-  { text: "Coingecko Listing" },
-];
 
-const RMArr2 = [
-  { text: "10,000 Holders" },
-  { text: "Airdrops & Giveaways" },
-  { text: "More Marketing Campaigns" },
-  { text: "Influencers" },
-  { text: "Various Ads, Social Media Presence" },
-  { text: "Great Promotions For The Community" },
-];
-
-const RMArr3 = [
-  { text: "25,000 Holders" },
-  { text: "Big Airdrop Campaign" },
-  { text: "NFT Collection Opensea" },
-  { text: "Special Marketing Campaigns" },
-  { text: "Centralized Exchange Listing" },
-  { text: "Big Marketing Plan" },
-];
-
-const RMArr4 = [
-  { text: "50,000 Holders" },
-  { text: "Staking Pools" },
-  { text: "Own Special NFT Platform" },
-  { text: "More Tier 1 And 2 Exchange Listings" },
-  { text: "Own Swap" },
-  { text: "Mobile App With Wallet" },
-];
 
 const Home = () => {
   const c_price = "0.000015";
@@ -154,7 +122,7 @@ const Home = () => {
   const [output, setOutput] = useState(0);
   const [buyToken, setBuyToken] = useState("bnb");
   const { address } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
   useEffect(() => {
     if (!amount) {
@@ -168,7 +136,7 @@ const Home = () => {
 
   const buyPresale = async () => {
     if (!address || !amount) return;
-    const _amt = utils.parseEther(amount);
+    const _amt = parseEther(amount);
 
     const walletClient = await getWalletClient({ chainId: 56 });
     const publicClient = await getPublicClient({ chainId: 56 });

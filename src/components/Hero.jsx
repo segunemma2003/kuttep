@@ -2,13 +2,13 @@ import React from "react";
 import styles from "./Hero.module.css";
 import { detailsImg, logo, smImg } from "../assets/assets";
 import Button from "./Button";
-import { useWeb3Modal } from "@web3modal/react";
+import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from "wagmi";
 import { useNavigate } from 'react-router-dom'; 
 
 const Hero = () => {
   const { address } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
   const navigate = useNavigate(); 
 
 const navigateToBuy = () => {

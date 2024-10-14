@@ -3,31 +3,9 @@ import "./App.css";
 import Home from "./pages/Home.jsx";
 import Buy from "./pages/Buy.jsx"
 
-import {
-  EthereumClient,
-  w3mConnectors,
-  w3mProvider,
-} from "@web3modal/ethereum";
-import { Web3Modal } from "@web3modal/react";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { sepolia, localhost, bsc } from "wagmi/chains";
 import Homes from "./pages/Homes.jsx";
-import { createContext, useContext } from "react";
 import HowToBuy from "./components/HowToBuy.jsx";
 
-
-const chains = [sepolia, mainnet];
-const projectId = "61f529aa30c77838f2502740d05202ad";
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-});
-const ethereumClient = new EthereumClient(wagmiConfig, chains);
-
-const ModalContext = createContext();
 
 
 
@@ -35,7 +13,6 @@ const ModalContext = createContext();
 function App() {
   return (
     <>
-      <WagmiConfig config={wagmiConfig}>
         <Router>
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
@@ -44,8 +21,6 @@ function App() {
             <Route path="/howtobuy" element= {<HowToBuy />} />
           </Routes>
         </Router>
-      </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   );
 }
