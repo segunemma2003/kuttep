@@ -4,12 +4,12 @@ import Fade from "react-awesome-reveal";
 import { useAppKit } from "@reown/appkit/react";
 
 
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 const Navbar = () => {
   // const [address, setAddress] = useState("");
   const { address } = useAccount();
-  const { open } = useAppKit();
-
+  const { open} = useAppKit();
+  
   return (
     <>
       <div className="sticky top-0 flex items-center bg-[#000000] w-full px-8 pt-4 z-10">

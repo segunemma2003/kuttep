@@ -1,7 +1,7 @@
 import { createAppKit } from '@reown/appkit/react'
 
 import { WagmiProvider} from 'wagmi'
-import { sepolia} from '@reown/appkit/networks'
+import {  mainnet, sepolia} from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 // import { defaultWagmiConfig } from '@reown/wagmi'
@@ -16,13 +16,13 @@ const projectId = '61f529aa30c77838f2502740d05202ad'
 
 // 2. Create a metadata object - optional
 const metadata = {
-  name: 'KUT',
-  description: 'Kuttie',
-  url: '', // origin must match your domain & subdomain
-  icons: ['https://avatars.githubusercontent.com/u/179229932']
+  name: 'TEK',
+  description: 'TEK Dapp',
+  url: 'https://tekpresale.netlify.app/', // origin must match your domain & subdomain
+  // icons: ['https://avatars.githubusercontent.com/u/179229932']  //icons
 }
 
-const networks = [sepolia]
+const networks = [mainnet, sepolia]
 
 // 3. Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({
@@ -42,7 +42,7 @@ const wagmiAdapter = new WagmiAdapter({
 createAppKit({
   adapters: [wagmiAdapter],
   networks: networks,
-  metadata,
+  // metadata,
   projectId,
   features: {
     analytics: true // Optional - defaults to your Cloud configuration

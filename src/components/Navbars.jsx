@@ -5,15 +5,15 @@ import { logo } from "../assets/assets";
 import Fade from "react-awesome-reveal";
 
 import { useAppKit } from "@reown/appkit/react";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { storeAddress } from "../lib/api";
 
 const Navbars = () => {
   const [toggle, setToggle] = useState(false);
   const { address } = useAccount();
   const { open } = useAppKit();
-
-
+  const  {disconnect} = useDisconnect()
+  
   useEffect(() => {
     const stAddress = async () =>{
       if(address){
@@ -30,6 +30,7 @@ const Navbars = () => {
   const toggleHandler = () => {
     setToggle((prev) => !prev);
   };
+  
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
@@ -48,14 +49,14 @@ const Navbars = () => {
         <button
         onClick={() =>{
           console.log("open");
-          open();
+          disconnect();
         }} 
         className={`${styles.navBtn}`}> {address.slice(0, 6)} ..... {address.slice(-4)}</button> </Fade>)
         :(
           <Fade delay={2000} duration={1000}>
         <button className={`${styles.navBtn}`} onClick={() =>  {
           console.log("open");
-          console.log(  open());
+          open();
         }}>
           Connect wallet
         </button>
