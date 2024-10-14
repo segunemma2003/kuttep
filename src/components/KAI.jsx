@@ -22,7 +22,7 @@ const KAI = () => {
           <p className={`text text-[#fff]`}>
             Kutte AI represent a disruptive force in the blockchain space—a
             metaphorical watchdog and guardian ensuring transparency, security,
-            and fairness within decentralized networks.   
+            and fairness within decentralized networks.
           </p>
           <p className={`text text-[#fff] mt-[1rem]`}>
             They participate in voting on proposals, shaping the future
@@ -30,7 +30,7 @@ const KAI = () => {
             reliability within the crypto community. Just as a faithful dog
             guards its owner's interests, Kutte AI symbolize a token or a
             community member dedicated to safeguarding the integrity of
-            transactions and protocols.   
+            transactions and protocols.
           </p>
           <p className={`text text-[#fff] mt-[1rem]`}>
             Their symbolic representation in the blockchain world underscores
@@ -44,17 +44,17 @@ const KAI = () => {
             participation.
           </p>
           <p className={`text text-[#fff] mt-[1rem]`}>
-              Kutte AI will be listed on five major exchanges, ensuring high
+            Kutte AI will be listed on five major exchanges, ensuring high
             visibility and accessibility.
           </p>
           <p className={`text text-[#fff] mt-[1rem]`}>
-              Additionally, the project will feature locked liquidity, providing
+            Additionally, the project will feature locked liquidity, providing
             stability and confidence to investors and users alike. Kutte AI will
             implement a buy back and burn mechanism, making the token
             deflationary. This approach ensures a decrease in the total supply
             over time, which can potentially increase the value of the remaining
             tokens, benefiting long-term holders and contributing to robust
-            market dynamics. (Add WHITEPAPER link)   
+            market dynamics.
           </p>
           <p className={`text text-[#fff] mt-[1rem]`}>
             In essence, Kutte AI combine the best of both worlds—serious
