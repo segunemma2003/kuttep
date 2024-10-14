@@ -16,7 +16,7 @@ import { createContext, useContext } from "react";
 import HowToBuy from "./components/HowToBuy.jsx";
 
 
-const chains = [sepolia];
+const chains = [sepolia, mainnet];
 const projectId = "61f529aa30c77838f2502740d05202ad";
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 
