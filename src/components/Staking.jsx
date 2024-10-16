@@ -17,7 +17,7 @@ import tokenAbi from "../tokenAbi.json"
 import { usePublicClient, useWalletClient } from "wagmi";
 import { formatNumberWithCommas, getTokenAddress, shortenAddress, timeAgo } from "../lib/utils";
 import { useAccount } from "wagmi";
-import { getRecentBuys, getReferralCode, getReferrals, storeRecentBuy } from "../lib/api";
+import { getAddressReferralCode, getRecentBuys, getReferralCode, getReferrals, storeRecentBuy } from "../lib/api";
 
 
 const Staking = ({settings}) => {
@@ -26,11 +26,13 @@ const Staking = ({settings}) => {
   const [amountToPay, setAmountToPay] = useState("0");
   const [buyToken, setBuyToken] = useState("ETH");
   const [tokenDetail, setTokenDetail] =useState();
-  const [referralAddress, setReferralAddress] = useState(null);
+  const [referralAddress, setReferralAddress] = useState(zeroAddress);
   const [tokenBal, setTokenBal] = useState(0);
   const [kut, setKut] = useState([]);
   const [referrals, setReferrals] = useState([]);
-  const [referredCode, setRefferedCode] = useState(null);
+  const [referredCode, setRefferedCode] = useState();
+  const [refAdd, setRefadd] = useState(null);
+  const [load, setLoad ] = useState(false);
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH'); // Default to ETH
   const {data : walletClient} = useWalletClient()
@@ -67,6 +69,27 @@ const Staking = ({settings}) => {
       fetchRecentBuy();
     }
   }, [kut]);
+
+   useEffect(() => {
+    if (refAdd == null) {
+      console.log("Ref add is not null")
+      const fetchRef = async () => {
+        try {
+          const da ={
+            "address":address
+          }
+          const data = await getReferralCode(da);
+          console.log("data: refAdd", data['referral_code']); // Fetch settings data
+          setRefadd(data['referral_code']); // Store settings in state
+        } catch (error) {
+          console.log(error);
+          // notifyError("Failed to fetch settings.");
+        }
+      };
+  
+      fetchRef();
+    }
+  }, [refAdd]);
 
 
   useEffect(() => {
@@ -130,18 +153,21 @@ setTokenBal(Number(tokenBalInNormal));
 
 
 
+  
   const applyReferralAddress = async() => {
+    setLoad(true);
     if(referredCode){
       const dat ={
         'referral_code': referredCode
       };
-        const data = await getReferralCode(dat);
-        console.log(data.data)
+        const data = await getAddressReferralCode(dat);
+        console.log(data)
         console.log("data");
-        setReferralAddress(data.data);
+        setReferralAddress(data["address"]);
     }else{
       alert("Kindly type referral code");
     }
+    setLoad(false);
   }
 
   const updateAmount = async(amount) => {
@@ -233,7 +259,7 @@ setTokenBal(Number(tokenBalInNormal));
           address: CONTRACT_ADDRESS,
           abi: presaleAbi.abi,
           functionName: "buyToken",
-          args: [Number(amount), referral],
+          args: [Number(amount), referralAddress],
           gasLimit: ethers.utils.hexlify(8000000),
           value: totalPriceInWei, // Ensure proper usage of BigInt here
         });
@@ -241,7 +267,7 @@ setTokenBal(Number(tokenBalInNormal));
         await publicClient.waitForTransactionReceipt({ hash });
         const buy_data = {
           "address":address,
-          "amount": Number(amount)
+          "amount": Number(amount).toString()
       };
       await storeRecentBuy(buy_data);
         window.location.reload();
@@ -380,10 +406,10 @@ setTokenBal(Number(tokenBalInNormal));
                 <div className="flex gap-5 items-center text-[0.5rem] md:text-[0.8rem]">
                  
                   <div className={`${styles.inputContainer}`}>
-                    <input type="number" className="w-full" onChange={(val)=>setRefferedCode(val.target.value)} />
+                    <input  className="w-full bg-transparent" onChange={(val)=>setRefferedCode(val.target.value)} value={referredCode} />
                    
                   </div>
-                  <Button text={`Apply Code`} clickFunction={applyReferralAddress} width={`w-full`} />
+                  <Button text={load?"Loading.....":`Apply Code`} clickFunction={!load && applyReferralAddress} width={`w-full`} />
                 </div>
               </div>
 
@@ -392,7 +418,7 @@ setTokenBal(Number(tokenBalInNormal));
 
                 <div className="flex gap-5 items-center text-[0.5rem] md:text-[0.8rem]">
                   <div className={`${styles.inputContainer}`}>
-                    <input type="number" className="w-full"  value={referralAddress} readonly/>
+                    <input type="" className="w-full bg-transparent"  value={referralAddress} readonly/>
                  
                   </div>
 
@@ -406,10 +432,10 @@ setTokenBal(Number(tokenBalInNormal));
             </div>
 
             <div className="flex mt-[2rem] justify-center">
-              Your Total Token Balance : {tokenBal}
+              Your Total Token Balance : <b>{tokenBal} KUT</b>
             </div>
             <div className="flex mt-[2rem] justify-center">
-              Your Referral Code is : {settings? settings['refferral_code']: "Kindly connect wallet to get your referral code"}
+              Your Referral Code is : <b>{address && refAdd? refAdd: "Kindly connect wallet to get your referral code"}</b>
             </div>
           </div>
         </div>
@@ -426,7 +452,7 @@ setTokenBal(Number(tokenBalInNormal));
                 <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
                 {recent["amount"] }KUT
                 </p>
-                <p className="text-[0.8rem] md:text-[1.2rem]">{timeAgo(recent['created_at'])}</p>
+                <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
               </div>
         ))} 
         
@@ -444,7 +470,7 @@ setTokenBal(Number(tokenBalInNormal));
                 <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
                 {recent["amount"] }KUT
                 </p>
-                <p className="text-[0.8rem] md:text-[1.2rem]">{timeAgo(recent['created_at'])}</p>
+                <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
               </div>
         ))} 
         
