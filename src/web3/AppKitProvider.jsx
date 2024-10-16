@@ -25,7 +25,7 @@ const metadata = {
 
 // Define the custom networ
 
-const networks =  [mainnet, sepolia]
+const networks =  [mainnet]
 
 // 3. Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({
