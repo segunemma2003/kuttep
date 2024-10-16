@@ -15,12 +15,12 @@ import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../addresses";
 import presaleAbi from "../presaleAbi.json"
 import tokenAbi from "../tokenAbi.json"
 import { usePublicClient, useWalletClient } from "wagmi";
-import { getTokenAddress } from "../lib/utils";
+import { formatNumberWithCommas, getTokenAddress } from "../lib/utils";
 import { useAccount } from "wagmi";
 import { storeRecentBuy } from "../lib/api";
 
 
-const Staking = () => {
+const Staking = ({settings}) => {
   const { address } = useAccount();
   const [amount, setAmount] = useState("0")
   const [amountToPay, setAmountToPay] = useState("0");
@@ -249,20 +249,21 @@ setTokenBal(Number(tokenBalInNormal));
 
           <div>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-              1 KAI = 0.0002 USDT
+            1 KUT = {settings? Number(settings['price']): "0.0002"} ETH
             </p>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-              1000 $KAI = 1 Meter
+            40,000,000,000 KUT = 1 Meter
             </p>
           </div>
 
           <div className="bg-white rounded-lg px-[0.8rem] py-[1rem] md:px-[1.2rem] md:py-[1.5rem] lg:px-[1.5rem] lg:py-[2rem]">
             <p className="text-[1rem] md:text-[1rem] lg:text-[2rem] font-bold">
-              247,121,788/
-              <span className="text-[#FFA800]">8000000 Meters</span>
+            {settings? formatNumberWithCommas(Number(settings['amount_raised_in_usdt'])): "245,353,533"} /
+              <span className="text-[#FFA800]">{settings?formatNumberWithCommas(Number(settings['coin'])): "8000000"} Meters</span>
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
-              <span className="font-bold text-[#3B2621]">Stage 1 = 70%</span> of
+              <span className="font-bold text-[#3B2621]">Stage 1 = {settings?Number((Number(settings['amount_raised_in_usdt']) / Number(settings['coin'])) * 100).toFixed(2)
+ : 10}</span> of
               the Journey
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
@@ -278,9 +279,9 @@ setTokenBal(Number(tokenBalInNormal));
           />
 
           <p className="text-center text-[1.1rem] md:text-[1.3rem] lg:text-[1.8rem] font-semibold">
-            <span className="text-[#964C1E]">USD Raised</span> $4,215,177.87
+            <span className="text-[#964C1E]">USD Raised</span> ${settings? formatNumberWithCommas(Number(settings['amount_raised_in_dollars'])): "4,215,177.87"}
             <br />
-            <span className="text-[#964C1E]">$1USDT</span> = 5,000 KAI
+            <span className="text-[#964C1E]">$1USDT</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20000"} KUT
           </p>
 
           {/*************************************************** FORM **********************************************/}
@@ -355,6 +356,9 @@ setTokenBal(Number(tokenBalInNormal));
 
             <div className="flex mt-[2rem] justify-center">
               Your Total Token Balance : {tokenBal}
+            </div>
+            <div className="flex mt-[2rem] justify-center">
+              Your Referral Code is : {settings? settings['refferral_code']: "Kindly connect wallet to get your referral code"}
             </div>
           </div>
         </div>
