@@ -74,8 +74,9 @@ const Staking = ({settings}) => {
       const fetchRefferalBuy = async () => {
         try {
           const data = await getReferrals();
-          console.log("data:", data.data); // Fetch settings data
-          setReferrals(data.data); // Store settings in state
+          console.log("data:", data); // Fetch settings data
+          
+          setReferrals(data); // Store settings in state
         } catch (error) {
           console.log(error);
           // notifyError("Failed to fetch settings.");
@@ -435,7 +436,7 @@ setTokenBal(Number(tokenBalInNormal));
               <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
                 Recent Referral Bonus gift
               </p>
-              {referrals.map((recent)=>(
+              {referrals?.length> 0 && referrals?.map((recent)=>(
               <div  key={recent['id']} className="flex items-center justify-between">
                 <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
                 {shortenAddress(recent["address"])}
