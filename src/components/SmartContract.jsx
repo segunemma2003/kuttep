@@ -5,10 +5,12 @@ import Button from "./Button";
 import { smartContractBigImage, smartContractSmallImage } from "../assets/assets";
 import { Fade } from "react-awesome-reveal";
 import { useNavigate } from 'react-router-dom'; 
+import { formatNumberWithCommas } from "../lib/utils";
+import { CONTRACT_ADDRESS } from "../addresses";
 const contractAdd = `0x2D7D248d5fBC132eE652a35305000fAB478ea52B`;
 
 
-const SmartContract = () => {
+const SmartContract = ({settings}) => {
   const [copied, setCopied] = useState(null);
   const navigate = useNavigate(); 
 
@@ -42,19 +44,19 @@ const SmartContract = () => {
                 <p className={`${styles.detailsTitle}`}>Staked</p>
                 <div>
                   <p className={`${styles.detailsText}`}>Total Stake</p>
-                  <p className={`${styles.detailsTitle}`}>15,766,383,366 KAI</p>
+                  <p className={`${styles.detailsTitle}`}>{settings? formatNumberWithCommas(Number(settings['total_staked'])): "15,766,383,366 "} KUT</p>
                 </div>
 
                 <div>
                   <p className={`${styles.detailsText}`}>Apy</p>
-                  <p className={`${styles.detailsTitle}`}>50%</p>
+                  <p className={`${styles.detailsTitle}`}>{ settings? settings['current_percent']: 10}%</p>
                 </div>
               </div>
 
               <p className="text-center">Contract address</p>
               <div className={`flex items-center justify-center w-full`}>
                 <p className={`${styles.address}`}>
-                0x2D7D248d5fBC132eE652a35305000fAB478ea52B
+                { settings? settings['contract_address']: CONTRACT_ADDRESS}
                 </p>
                 <CopyToClipboard text={contractAdd}>
                   <button onClick={copyHandler} className={`${styles.btn}`}>

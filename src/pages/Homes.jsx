@@ -15,22 +15,47 @@ import Updates from "../components/Updates";
 import Stakings from "../components/Stakings";
 import Footers from "../components/Footer";
 import Community from "../components/Community";
+import { useEffect, useState } from "react";
+import { getFirstSetting } from "../lib/api";
 
 
 const Homes = () => {
+
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    if (settings === null) {
+      const fetchSettings = async () => {
+        try {
+          const data = await getFirstSetting();
+          console.log("data:", data.data); // Fetch settings data
+          setSettings(data.data); // Store settings in state
+        } catch (error) {
+          console.log(error);
+          // notifyError("Failed to fetch settings.");
+        }
+      };
+  
+      fetchSettings();
+    }
+  }, [settings]);
     return (<>
     <Navbars />
-    <Hero />
+    <Hero
+    settings= {settings}
+    />
     <Super />
     <Earn />
 
-      <CurrentPresale />
+      <CurrentPresale  
+      settings={settings}
+      />
       <KAI />
       <AboutKai />
       <Liquiditys />
       <SpaceGuards />
       <Roadmap />
-      <SmartContract />
+      <SmartContract   settings={settings} />
       <Sponsors />
       <Patners />
       <Updates />

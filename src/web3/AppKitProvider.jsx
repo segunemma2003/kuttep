@@ -1,7 +1,7 @@
 import { createAppKit } from '@reown/appkit/react'
 
 import { WagmiProvider} from 'wagmi'
-import {  mainnet, sepolia} from '@reown/appkit/networks'
+import {  mainnet, sepolia,defineChain, holesky} from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 // import { defaultWagmiConfig } from '@reown/wagmi'
@@ -22,7 +22,10 @@ const metadata = {
   // icons: ['https://avatars.githubusercontent.com/u/179229932']  //icons
 }
 
-const networks = [mainnet, sepolia]
+
+// Define the custom networ
+
+const networks =  [mainnet, sepolia]
 
 // 3. Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({

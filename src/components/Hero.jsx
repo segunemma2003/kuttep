@@ -5,8 +5,9 @@ import Button from "./Button";
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from "wagmi";
 import { useNavigate } from 'react-router-dom'; 
+import { formatNumberWithCommas } from "../lib/utils";
 
-const Hero = () => {
+const Hero = ({settings}) => {
   const { address } = useAccount();
   const { open } = useAppKit();
   const navigate = useNavigate(); 
@@ -60,12 +61,12 @@ const navigateToBuy = () => {
               <p className={`${styles.detailsTitle}`}>Staked</p>
               <div>
                 <p className={`${styles.detailsText}`}>Total Stake</p>
-                <p className={`${styles.detailsTitle}`}>15,766,383,366 KAI</p>
+                <p className={`${styles.detailsTitle}`}>{settings? formatNumberWithCommas(Number(settings['total_staked'])): "15,766,383,366 "} KUT</p>
               </div>
 
               <div>
                 <p className={`${styles.detailsText}`}>Apy</p>
-                <p className={`${styles.detailsTitle}`}>50%</p>
+                <p className={`${styles.detailsTitle}`}>{ settings? settings['current_percent']: 10}%</p>
               </div>
             </div>
           </div>
