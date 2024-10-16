@@ -15,19 +15,22 @@ import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../addresses";
 import presaleAbi from "../presaleAbi.json"
 import tokenAbi from "../tokenAbi.json"
 import { usePublicClient, useWalletClient } from "wagmi";
-import { formatNumberWithCommas, getTokenAddress } from "../lib/utils";
+import { formatNumberWithCommas, getTokenAddress, shortenAddress, timeAgo } from "../lib/utils";
 import { useAccount } from "wagmi";
-import { storeRecentBuy } from "../lib/api";
+import { getRecentBuys, getReferralCode, getReferrals, storeRecentBuy } from "../lib/api";
 
 
 const Staking = ({settings}) => {
   const { address } = useAccount();
   const [amount, setAmount] = useState("0")
   const [amountToPay, setAmountToPay] = useState("0");
-  const [buyToken, setBuyToken] = useState("ETH")
+  const [buyToken, setBuyToken] = useState("ETH");
   const [tokenDetail, setTokenDetail] =useState();
   const [referralAddress, setReferralAddress] = useState(null);
   const [tokenBal, setTokenBal] = useState(0);
+  const [kut, setKut] = useState([]);
+  const [referrals, setReferrals] = useState([]);
+  const [referredCode, setRefferedCode] = useState(null);
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH'); // Default to ETH
   const {data : walletClient} = useWalletClient()
@@ -48,6 +51,40 @@ const Staking = ({settings}) => {
     setSelectedCurrency(id);
   };
 
+  useEffect(() => {
+    if (kut.length ==0) {
+      const fetchRecentBuy = async () => {
+        try {
+          const data = await getRecentBuys();
+          console.log("data:", data.data); // Fetch settings data
+          setKut(data.data); // Store settings in state
+        } catch (error) {
+          console.log(error);
+          // notifyError("Failed to fetch settings.");
+        }
+      };
+  
+      fetchRecentBuy();
+    }
+  }, [kut]);
+
+
+  useEffect(() => {
+    if (referrals.length ==0) {
+      const fetchRefferalBuy = async () => {
+        try {
+          const data = await getReferrals();
+          console.log("data:", data.data); // Fetch settings data
+          setReferrals(data.data); // Store settings in state
+        } catch (error) {
+          console.log(error);
+          // notifyError("Failed to fetch settings.");
+        }
+      };
+  
+      fetchRefferalBuy();
+    }
+  }, [referrals]);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -91,6 +128,20 @@ setTokenBal(Number(tokenBalInNormal));
   }, []); // Runs only once when the component mounts
 
 
+
+  const applyReferralAddress = async() => {
+    if(referredCode){
+      const dat ={
+        'referral_code': referredCode
+      };
+        const data = await getReferralCode(dat);
+        console.log(data.data)
+        console.log("data");
+        setReferralAddress(data.data);
+    }else{
+      alert("Kindly type referral code");
+    }
+  }
 
   const updateAmount = async(amount) => {
     console.log(amount);
@@ -262,8 +313,7 @@ setTokenBal(Number(tokenBalInNormal));
               <span className="text-[#FFA800]">{settings?formatNumberWithCommas(Number(settings['coin'])): "8000000"} Meters</span>
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
-              <span className="font-bold text-[#3B2621]">Stage 1 = {settings?Number((Number(settings['amount_raised_in_usdt']) / Number(settings['coin'])) * 100).toFixed(2)
- : 10}</span> of
+              <span className="font-bold text-[#3B2621]">Stage 1 = 40%</span> of
               the Journey
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
@@ -281,7 +331,7 @@ setTokenBal(Number(tokenBalInNormal));
           <p className="text-center text-[1.1rem] md:text-[1.3rem] lg:text-[1.8rem] font-semibold">
             <span className="text-[#964C1E]">USD Raised</span> ${settings? formatNumberWithCommas(Number(settings['amount_raised_in_dollars'])): "4,215,177.87"}
             <br />
-            <span className="text-[#964C1E]">$1USDT</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20000"} KUT
+            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KUT
           </p>
 
           {/*************************************************** FORM **********************************************/}
@@ -329,10 +379,10 @@ setTokenBal(Number(tokenBalInNormal));
                 <div className="flex gap-5 items-center text-[0.5rem] md:text-[0.8rem]">
                  
                   <div className={`${styles.inputContainer}`}>
-                    <input type="number" className="w-full" />
+                    <input type="number" className="w-full" onChange={(val)=>setRefferedCode(val.target.value)} />
                    
                   </div>
-                  <Button text={`Apply Code`} width={`w-full`} />
+                  <Button text={`Apply Code`} clickFunction={applyReferralAddress} width={`w-full`} />
                 </div>
               </div>
 
@@ -363,175 +413,40 @@ setTokenBal(Number(tokenBalInNormal));
           </div>
         </div>
 
-        <div className="contentContainer bg-[#3B2621] mt-[1rem] h-[500px] overflow-scroll">
-          <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
-            Recent Buy
-          </p>
+        <div className="contentContainer bg-[#3B2621] mt-[1rem]">
+              <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
+                Recent Buy
+              </p>
+              {kut.map((recent)=>(
+              <div  key={recent['id']} className="flex items-center justify-between">
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {shortenAddress(recent["address"])}
+                </p>
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {recent["amount"] }KUT
+                </p>
+                <p className="text-[0.8rem] md:text-[1.2rem]">{timeAgo(recent['created_at'])}</p>
+              </div>
+        ))} 
+        
+        </div>
 
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              0xd5d2...90bc
-            </p>
-            <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-              10,000 KAI
-            </p>
-            <p className="text-[0.8rem] md:text-[1.2rem]">18 hours ago</p>
-          </div>
+        <div className="contentContainer bg-[#3B2621] mt-[1rem]">
+              <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
+                Recent Referral Bonus gift
+              </p>
+              {referrals.map((recent)=>(
+              <div  key={recent['id']} className="flex items-center justify-between">
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {shortenAddress(recent["address"])}
+                </p>
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {recent["amount"] }KUT
+                </p>
+                <p className="text-[0.8rem] md:text-[1.2rem]">{timeAgo(recent['created_at'])}</p>
+              </div>
+        ))} 
+        
         </div>
       </div>
     </section>

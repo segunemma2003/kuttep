@@ -19,18 +19,17 @@ const CurrentPresale = ({settings}) => {
             1 KUT = {settings? Number(settings['price']): "0.0002"} ETH
             </p>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-              1000 KUT = 1 Meter
+              40,000,000,000 KUT = 1 Meter
             </p>
           </div>
 
           <div className="bg-white rounded-lg px-[0.8rem] py-[1rem] md:px-[1.2rem] md:py-[1.5rem] lg:px-[1.5rem] lg:py-[2rem]">
             <p className="text-[1.3rem] md:text-[1.5rem] lg:text-[2.3rem] font-bold">
             {settings? formatNumberWithCommas(Number(settings['amount_raised_in_usdt'])): "245,353,533"} /
-              <span className="text-[#FFA800]">{settings?formatNumberWithCommas(Number(settings['coin'])): "8000000"} Meters</span>
+              <span className="text-[#FFA800]">{settings?formatNumberWithCommas(Number(settings['coin'])): "40,000,000,000"} Meters</span>
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
-              <span className="font-bold text-[#3B2621]">Stage 1 = {settings?Number((Number(settings['amount_raised_in_usdt']) / Number(settings['coin'])) * 100).toFixed(2)
- : 10}%</span> of
+              <span className="font-bold text-[#3B2621]">Stage 1 = 40%</span> of
               the Journey
             </p>
             <p className="font-medium text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]">
@@ -48,7 +47,7 @@ const CurrentPresale = ({settings}) => {
           <p className="text-center text-[1.1rem] md:text-[1.3rem] lg:text-[1.8rem] font-semibold">
             <span className="text-[#964C1E]">USD Raised</span> ${settings? formatNumberWithCommas(Number(settings['amount_raised_in_dollars'])): "4,215,177.87"}
             <br />
-            <span className="text-[#964C1E]">$1USDT</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20000"} KUT
+            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KUT
           </p>
         </div>
       </div>
