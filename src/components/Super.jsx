@@ -23,8 +23,8 @@ const Super = () => {
     setModal(true); // Set modal to true when a button is selected
   };
 
-  const navigateToBuy = () => {
-    navigate('/buy');  // In Next.js
+  const navigateToEarn = () => {
+    navigate('/earn');  // In Next.js
   };
 
   const navigateToHowToBuy = () =>
@@ -81,8 +81,8 @@ const Super = () => {
                   clickFunction={navigateToHowToBuy}
                 />
                 <Button
-                  text={"Staking"}
-                  clickFunction={navigateToBuy }
+                  text={"Earn"}
+                  clickFunction={navigateToEarn }
                 />
               </div>
               <div className="hidden md:block absolute right-0 top-0 transform -translate-y-[40%] translate-x-[30%]">

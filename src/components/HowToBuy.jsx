@@ -7,10 +7,10 @@ const HowToBuy = () => {
     <>
     <Navbars />
     <section className={`section `}>
-      <div className={`sectionContainer `}>
+      <div className={`sectionContainer  space-y-2 `}>
       <div>
-            <h1 class="text-center underline title">How To Buy</h1>
-          </div>
+        <h1 class="text-center underline title">How To Buy</h1>
+      </div>
         <div
           className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
         >
@@ -32,6 +32,10 @@ const HowToBuy = () => {
               your cosmic exploration!
             </p>
           </div>
+      </div>
+      <div
+          className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
+        >
           <div>
             <h2 className="title  text-center text-[#3B2621] "> STEP 2 </h2>
             <h3 className={`text mt-0 text-[1.2rem] text-[#3B2621]`}>
@@ -47,6 +51,10 @@ const HowToBuy = () => {
               coins
             </p>
           </div>
+        </div>
+        <div
+          className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
+        >
           <div>
             <h2 className="title  text-center text-[#3B2621] "> STEP 3 </h2>
             <h3 className={`text mt-0 text-[1.2rem] text-[#3B2621]`}>
@@ -63,7 +71,15 @@ const HowToBuy = () => {
               your investment skyrocket like a dazzling firework! 🚀🎆 coins
             </p>
           </div>
+
+          </div>
+
+          <div
+          className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
+        >
           <div>
+
+
             <h2 className="title  text-center text-[#3B2621] "> STEP 4 </h2>
             <h3 className={`text mt-0 text-[1.2rem] text-[#3B2621]`}>
               Get Your Hands on $KAI
@@ -77,6 +93,7 @@ const HowToBuy = () => {
               adventures never end!
             </p>
           </div>
+          
         </div>
       </div>
     </section>
