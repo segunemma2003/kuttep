@@ -106,6 +106,11 @@ export const getReferralCode = async (data) => {
 
 
 // Get referral code by address
+// e.g {
+//     "referral_code":"QPGZFNDA",
+//     "user_address": "0x54991a05e4bF171B8f2Fa24c08E7C2eae1207Bd9"
+// }
+
 export const getAddressReferralCode = async (data) => {
     try {
         const response = await api.post('/get-referral-code-by-address', data);
@@ -114,3 +119,58 @@ export const getAddressReferralCode = async (data) => {
         return handleError(error);
     }
 };
+
+
+
+// Get referral code by address
+//
+export const getAllTasks = async () => {
+    try {
+        const response = await api.post('/tasks');
+        return handleResponse(response);
+    } catch (error) {
+        return handleError(error);
+    }
+};
+
+
+// Get referral code by address
+//
+export const getAllReferrals = async () => {
+    try {
+        const response = await api.post('/addresses/referrals');
+        return handleResponse(response);
+    } catch (error) {
+        return handleError(error);
+    }
+};
+
+
+//do the task
+// {
+//     "address_id":3,
+//     "task_id": 1,
+//     "amount":2000
+// }
+export const doTask = async (data) => {
+    try {
+        const response = await api.post('/tasks/complete',data);
+        return handleResponse(response);
+    } catch (error) {
+        return handleError(error);
+    }
+};
+
+
+// task summary
+export const taskSummary = async () => {
+    try {
+        const response = await api.post('/tasks/summary');
+        return handleResponse(response);
+    } catch (error) {
+        return handleError(error);
+    }
+};
+
+
+
