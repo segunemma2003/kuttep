@@ -4,6 +4,7 @@ import styles from "./Staking.module.css";
 import Button from "./Button";
 import { Select } from "@radix-ui/react-select";
 import { BigNumber, ethers } from 'ethers';
+import mystyle from "./Earn.module.css";
 import {
   SelectContent,
   SelectItem,
@@ -33,6 +34,7 @@ const Staking = ({settings}) => {
   const [referredCode, setRefferedCode] = useState();
   const [refAdd, setRefadd] = useState(null);
   const [load, setLoad ] = useState(false);
+  const HEADERS = ["Rank", "Wallet", "Total Referred", "Total Amount"];
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH'); // Default to ETH
   const {data : walletClient} = useWalletClient()
@@ -457,24 +459,45 @@ setTokenBal(Number(tokenBalInNormal));
         ))} 
         
         </div>
+<br />
 
-        <div className="contentContainer bg-[#3B2621] mt-[1rem]">
-              <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
-                Recent Referral Bonus gift
-              </p>
-              {referrals?.length> 0 && referrals?.map((recent)=>(
-              <div  key={recent['id']} className="flex items-center justify-between">
-                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {shortenAddress(recent["address"])}
-                </p>
-                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {recent["amount"] }KAI
-                </p>
-                <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
-              </div>
-        ))} 
-        
+        <div
+          className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
+        >
+          <div>
+
+
+            <h2 className="title  text-center text-[#3B2621] "> Top  Recent Referral Bonus </h2>
+        <div className="table-responsive mt-[3rem] h-[500px] overflow-y-scroll  ">
+          <table className={`${mystyle.tableStyle} `}>
+            <thead>
+              <tr>
+                {HEADERS.map((th, index) => (
+                  <th className={`${mystyle.thStyle}`} key={index}>
+                    {th}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {referrals.map((recent, index) => (
+                <tr key={recent['id']} className={`h-[70px]`}>
+                  <td className={`${mystyle.tdStyle}`}>{index + 1}</td>
+
+                  <td className={`${mystyle.tdStyle}`}> {shortenAddress(recent["address"]['address'])}</td>
+                  <td className={`${mystyle.tdStyle} `}> {recent["total_referred"] }KAI</td>
+                  <td className={`${mystyle.tdStyle} `}> {recent["amount"] }KAI</td>
+
+                  <td className={`${mystyle.tdStyle}`}>{timeAgo(recent['created_at'])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+</div>
+</div>
+
+        
       </div>
     </section>
   );

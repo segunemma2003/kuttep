@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Navbars from "./Navbars";
-import Footers from "./Footer";
+
+import { plane } from "../assets/assets";
 import Button from "./Button";
+import mystyle from "./Earn.module.css";
 import { useAccount } from "wagmi";
 import { getReferralCode, taskSummary } from "../lib/api";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -13,6 +14,7 @@ const EarnTask = () => {
   const [loading, setLoading] = useState(false);
 
   const [earnings, setEarnings] = useState([]);
+  const HEADERS = ["Rank", "Wallet", "Total Task", "Total Amount"];
 
   const getAddress = async () => {
     if(!address){
@@ -279,28 +281,44 @@ So go ahead, refer five people today, and get your 10,000 points! Your code is w
           
         </div>
 
+        <div
+          className={`contentContainer bg-[#fff] h-max border-1 border-slate-950 `}
+        >
+          <div>
 
-        <div className="contentContainer bg-[#3B2621] mt-[1rem]">
-              <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
-                Recent Task Earnings
-              </p>
-              {earnings?.length> 0 && earnings?.map((recent)=>(
-              <div  key={recent['id']} className="flex items-center justify-between">
-                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {shortenAddress(recent["address"]['address'])}
-                </p>
-                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {recent["total_tasks"] } tasks
-                </p>
-                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {recent["total_amount"] } Points
-                </p>
-                <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
-              </div>
-        ))} 
-        
+
+            <h2 className="title  text-center text-[#3B2621] "> Top Earners</h2>
+        <div className="table-responsive mt-[3rem] h-[500px] overflow-y-scroll  ">
+          <table className={`${mystyle.tableStyle} `}>
+            <thead>
+              <tr>
+                {HEADERS.map((th, index) => (
+                  <th className={`${mystyle.thStyle}`} key={index}>
+                    {th}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {earnings.map((recent, index) => (
+                <tr key={recent['id']} className={`h-[70px]`}>
+                  <td className={`${mystyle.tdStyle}`}>{index + 1}</td>
+
+                  <td className={`${mystyle.tdStyle}`}> {shortenAddress(recent["address"]['address'])}</td>
+
+                  <td className={`${mystyle.tdStyle} `}> {recent["total_tasks"] } tasks</td>
+
+                  <td className={`${mystyle.tdStyle}`}>{recent["total_amount"] } Points</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+</div>
+</div>
+</div>
+
+        
 
     </section>
   

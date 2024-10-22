@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbars from "./Navbars";
 import Footers from "./Footer";
+import { shortenAddress, timeAgo } from "../lib/utils";
+import { getRecentBuys } from "../lib/api";
 
 const HowToBuy = () => {
+  const [kut, setKut] = useState([]);
+
+
+  useEffect(() => {
+    if (kut.length ==0) {
+      const fetchRecentBuy = async () => {
+        try {
+          const data = await getRecentBuys();
+          console.log("data:", data.data); // Fetch settings data
+          setKut(data.data); // Store settings in state
+        } catch (error) {
+          console.log(error);
+          // notifyError("Failed to fetch settings.");
+        }
+      };
+  
+      fetchRecentBuy();
+    }
+  }, [kut]);
+
+
   return (
     <>
     <Navbars />
@@ -95,7 +118,28 @@ const HowToBuy = () => {
           </div>
           
         </div>
+
+        <div className="contentContainer bg-[#3B2621] mt-[1rem]">
+              <p className="text-[#FFFFFF82] text-[1rem] md:text-[1.2rem]">
+                Recent Buy
+              </p>
+              {kut.map((recent)=>(
+              <div  key={recent['id']} className="flex items-center justify-between">
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {shortenAddress(recent["address"])}
+                </p>
+                <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
+                {recent["amount"] }KAI
+                </p>
+                <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
+              </div>
+        ))} 
+        
+        </div>
+<br />
       </div>
+      
+     
     </section>
     <Footers />
     </>
