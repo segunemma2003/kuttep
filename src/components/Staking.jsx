@@ -327,10 +327,10 @@ setTokenBal(Number(tokenBalInNormal));
 
           <div>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-            1 KUT = {settings? Number(settings['price']): "0.0002"} ETH
+            1 KAI = {settings? Number(settings['price']): "0.0002"} ETH
             </p>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-            40,000,000,000 KUT = 1 Meter
+            40,000,000,000 KAI = 1 Meter
             </p>
           </div>
 
@@ -358,7 +358,7 @@ setTokenBal(Number(tokenBalInNormal));
           <p className="text-center text-[1.1rem] md:text-[1.3rem] lg:text-[1.8rem] font-semibold">
             <span className="text-[#964C1E]">USD Raised</span> ${settings? formatNumberWithCommas(Number(settings['amount_raised_in_dollars'])): "4,215,177.87"}
             <br />
-            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KUT
+            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KAI
           </p>
 
           {/*************************************************** FORM **********************************************/}
@@ -389,7 +389,7 @@ setTokenBal(Number(tokenBalInNormal));
               {/******* INPUT ONE SECTION   ***************/}
               <div className={`${styles.inputContainer} mb-[1rem] md:mb-0 `}>
                 <input type="number" className="w-full" onChange={(e) => updateAmount(e.target.value)}/>
-                <p>KUT</p>
+                <p>KAI</p>
               </div>
               {/******* INPUT TWO SECTION   ***************/}
               <div className={`${styles.inputContainer}`}>
@@ -432,7 +432,7 @@ setTokenBal(Number(tokenBalInNormal));
             </div>
 
             <div className="flex mt-[2rem] justify-center">
-              Your Total Token Balance : <b>{tokenBal} KUT</b>
+              Your Total Token Balance : <b>{tokenBal} KAI</b>
             </div>
             <div className="flex mt-[2rem] justify-center">
               Your Referral Code is : <b>{address && refAdd? refAdd: "Kindly connect wallet to get your referral code"}</b>
@@ -450,7 +450,7 @@ setTokenBal(Number(tokenBalInNormal));
                 {shortenAddress(recent["address"])}
                 </p>
                 <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {recent["amount"] }KUT
+                {recent["amount"] }KAI
                 </p>
                 <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
               </div>
@@ -468,7 +468,7 @@ setTokenBal(Number(tokenBalInNormal));
                 {shortenAddress(recent["address"])}
                 </p>
                 <p className="text-[#FBB58A] text-[0.8rem] md:text-[1.2rem]">
-                {recent["amount"] }KUT
+                {recent["amount"] }KAI
                 </p>
                 <p className="text-[0.8rem] md:text-[1.2rem] text-[#FBB58A]">{timeAgo(recent['created_at'])}</p>
               </div>

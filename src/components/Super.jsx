@@ -41,9 +41,9 @@ const Super = () => {
             <div className={`${styles.firstCol} `}>
               <div className={`${styles.textContainer}`}>
                 <h2>Cute watch guard meme coin</h2>
-                <div className="md:hidden">
+                {/* <div className="md:hidden">
                   <img src={communityImage} className="w-[80%] mx-auto" />
-                </div>
+                </div> */}
                 <p className={`${styles.text}`}>
                   A blockchain watchdog ensuring transparency and security,
                   blending governance with meme culture and playful engagement.
@@ -87,6 +87,10 @@ const Super = () => {
               </div>
               <div className="hidden md:block absolute right-0 top-0 transform -translate-y-[40%] translate-x-[30%]">
                 <img src={communityImage} className="w-[65%]" />
+              </div>
+
+              <div className="md:hidden">
+                <img src={communityImage} className="w-[80%] mx-auto" />
               </div>
             </div>
           </div>

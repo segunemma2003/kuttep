@@ -44,7 +44,7 @@ const SmartContract = ({settings}) => {
                 <p className={`${styles.detailsTitle}`}>Staked</p>
                 <div>
                   <p className={`${styles.detailsText}`}>Total Stake</p>
-                  <p className={`${styles.detailsTitle}`}>{settings? formatNumberWithCommas(Number(settings['total_staked'])): "15,766,383,366 "} KUT</p>
+                  <p className={`${styles.detailsTitle}`}>{settings? formatNumberWithCommas(Number(settings['total_staked'])): "15,766,383,366 "} KAI</p>
                 </div>
 
                 <div>

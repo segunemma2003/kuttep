@@ -16,10 +16,10 @@ const CurrentPresale = ({settings}) => {
 
           <div>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-            1 KUT = {settings? Number(settings['price']): "0.0002"} ETH
+            1 KAI = {settings? Number(settings['price']): "0.0002"} ETH
             </p>
             <p className="text-[1.1rem] md:text-[1.3rem] lg:text-[2rem] font-semibold">
-              40,000,000,000 KUT = 1 Meter
+              40,000,000,000 KAI = 1 Meter
             </p>
           </div>
 
@@ -47,7 +47,7 @@ const CurrentPresale = ({settings}) => {
           <p className="text-center text-[1.1rem] md:text-[1.3rem] lg:text-[1.8rem] font-semibold">
             <span className="text-[#964C1E]">USD Raised</span> ${settings? formatNumberWithCommas(Number(settings['amount_raised_in_dollars'])): "4,215,177.87"}
             <br />
-            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KUT
+            <span className="text-[#964C1E]">1ETH</span> = {settings? formatNumberWithCommas(Number(settings['price']) * 10000000): "20,000"} KAI
           </p>
         </div>
       </div>
