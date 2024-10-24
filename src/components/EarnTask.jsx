@@ -54,6 +54,19 @@ useEffect(() => {
     fetchEarnings();
   }
 }, [earnings]);
+
+const joinTwitter = () => {
+  window.open('https://t.me/KutteAiToken_en', '_blank'); // Replace with the correct path to your whitepaper
+};
+
+
+const joinTelegramGroup = () => {
+  window.open('https://t.me/KutteAiToken_en', '_blank'); // Replace with the correct path to your whitepaper
+};
+
+const joinTelegramChannel = () => {
+  window.open('https://t.me/KutteAiToken_en', '_blank'); // Replace with the correct path to your whitepaper
+};
   
   return (
     <>
@@ -88,7 +101,7 @@ useEffect(() => {
                   <p>{referral_code ? referral_code : "Generate Referral Code"}</p>
                 </CopyToClipboard>
               </div>
-              <div className="text-center">
+              <div className="flex justify-center">
                 <Button
                   disabled={loading}
                   colored
@@ -136,7 +149,7 @@ So why wait? Join the X community today, earn your 2,000 points, and start explo
                 
                   colored
                   text={`Join X account`}
-                  clickFunction={()=>console.log('telegram')}
+                  clickFunction={joinTwitter}
                   className="mt-4"
                 />
               </div>
@@ -170,17 +183,20 @@ After successfully joining the group, your 1,000 points will be credited to your
                   <p>{referral_code ? referral_code : "Generate Referral Code"}</p>
                 </CopyToClipboard>
               </div> */}
-              <div className="text-center">
+            
+            </div>
+            
+          </div>
+          <br />
+            <div className="flex justify-center">
                 <Button
                 
                   colored
                   text={` Telegram group`}
-                  clickFunction={()=>console.log('telegram')}
+                  clickFunction={joinTelegramGroup}
                   className="mt-4"
                 />
               </div>
-            </div>
-          </div>
           </div>
 
           </div>
@@ -217,22 +233,22 @@ So, what are you waiting for? Join the Telegram channel now, claim your points, 
                   <p>{referral_code ? referral_code : "Generate Referral Code"}</p>
                 </CopyToClipboard>
               </div> */}
-              <div className="text-center">
+              
+            </div>
+          </div>
+
+         
+          </div>
+
+          <div className="flex justify-center">
                 <Button
                 
                   colored
                   text={`Telegram Channel`}
-                  clickFunction={()=>console.log('telegram')}
-                  className="mt-4"
+                  clickFunction={joinTelegramChannel}
+                  className="px-12 mt-4"
                 />
-              </div>
-            </div>
           </div>
-
-          
-          </div>
-
-          
           
         </div>
 
@@ -266,7 +282,7 @@ So go ahead, refer five people today, and get your 10,000 points! Your code is w
                   <p>{referral_code ? referral_code : "Generate Referral Code"}</p>
                 </CopyToClipboard>
               </div>
-              <div className="text-center">
+              <div className="flex justify-center">
                 <Button
                   disabled={loading}
                   colored
